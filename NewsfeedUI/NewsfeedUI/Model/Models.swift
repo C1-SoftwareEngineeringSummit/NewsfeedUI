@@ -12,6 +12,17 @@ class NewsFeed: ObservableObject {
 //            Step 2: Uncomment Following Code lines to visualize api content
 //class NewsFeed: ObservableObject, RandomAccessCollection {
     @Published var news = [NewsArticle]()
+    static var sampleData: [NewsArticle] {
+        guard let pathString = Bundle(for: NewsFeed.self).path(forResource: Constants.ResponsePayload.everything, ofType: "json"),
+              let jsonString = try? NSString(contentsOfFile: pathString, encoding: String.Encoding.utf8.rawValue),
+              let jsonData = jsonString.data(using: String.Encoding.utf8.rawValue),
+              let response = try? JSONDecoder().decode(NewsApiResponse.self, from: jsonData) else {
+            return []
+        }
+
+        return response.articles ?? []
+    }
+
     init() {
         // Hitting Actual Endpoint
         startLoadingNewsFeeds()
