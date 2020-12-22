@@ -1,5 +1,5 @@
 //
-//  NewsFeedModels.swift
+//  Models.swift
 //  NewsfeedUI
 //
 //  Created by Fatima Arshad on 12/22/20.
@@ -35,7 +35,7 @@ extension NewsFeed {
         /// Hitting NewsFeeds - Everything API Call
         // Only fetching first page of API response
         let page = "1"
-        let urlString = "\(NewsFeedConstants.Endpoint.everything)\(page)"
+        let urlString = "\(Constants.Endpoint.everything)\(page)"
         
         guard let feedsURL = URL(string: urlString) else { return }
         let networkTask = URLSession.shared.dataTask(with: feedsURL,
@@ -62,7 +62,7 @@ extension NewsFeed {
 extension NewsFeed {
     /// Load API Response from JSON File
     func startLoadingFromJSON() {
-        guard let jsonData = readJsonFromFile(resourceName: NewsFeedConstants.ResponsePayload.everything) else { return }
+        guard let jsonData = readJsonFromFile(resourceName: Constants.ResponsePayload.everything) else { return }
         parseJSONData(jsonData)
     }
     
@@ -91,7 +91,7 @@ extension NewsFeed {
             return
         }
         
-        if response.status != NewsFeedConstants.APIResponse.statusOK {
+        if response.status != Constants.APIResponse.statusOK {
             print("API response status is not OK: \(response.status)")
             return
         }
