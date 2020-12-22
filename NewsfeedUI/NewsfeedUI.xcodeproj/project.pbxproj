@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4D02A3A25924A3900622655 /* NewsFeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D02A3925924A3900622655 /* NewsFeedModels.swift */; };
+		B4D02A4025924A6200622655 /* NewsFeedAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D02A3F25924A6200622655 /* NewsFeedAPIResponse.swift */; };
+		B4D02A4325924C9100622655 /* NewsFeedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D02A4225924C9100622655 /* NewsFeedConstants.swift */; };
+		B4D02A4C2592665A00622655 /* ResponsePayload.json in Resources */ = {isa = PBXBuildFile; fileRef = B4D02A4B2592665A00622655 /* ResponsePayload.json */; };
 		C5A7A4A625912D270059D666 /* NewsfeedUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7A4A525912D270059D666 /* NewsfeedUIApp.swift */; };
 		C5A7A4A825912D270059D666 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7A4A725912D270059D666 /* ContentView.swift */; };
 		C5A7A4AA25912D290059D666 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5A7A4A925912D290059D666 /* Assets.xcassets */; };
@@ -14,6 +18,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B4D02A3925924A3900622655 /* NewsFeedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedModels.swift; sourceTree = "<group>"; };
+		B4D02A3F25924A6200622655 /* NewsFeedAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedAPIResponse.swift; sourceTree = "<group>"; };
+		B4D02A4225924C9100622655 /* NewsFeedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedConstants.swift; sourceTree = "<group>"; };
+		B4D02A4B2592665A00622655 /* ResponsePayload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ResponsePayload.json; sourceTree = "<group>"; };
 		C5A7A4A225912D270059D666 /* NewsfeedUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsfeedUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5A7A4A525912D270059D666 /* NewsfeedUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedUIApp.swift; sourceTree = "<group>"; };
 		C5A7A4A725912D270059D666 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -33,6 +41,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4D02A3825924A1700622655 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4D02A3925924A3900622655 /* NewsFeedModels.swift */,
+				B4D02A3F25924A6200622655 /* NewsFeedAPIResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B4D02A4725925CD000622655 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				B4D02A4B2592665A00622655 /* ResponsePayload.json */,
+				B4D02A4225924C9100622655 /* NewsFeedConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		C5A7A49925912D270059D666 = {
 			isa = PBXGroup;
 			children = (
@@ -52,6 +78,8 @@
 		C5A7A4A425912D270059D666 /* NewsfeedUI */ = {
 			isa = PBXGroup;
 			children = (
+				B4D02A4725925CD000622655 /* Constants */,
+				B4D02A3825924A1700622655 /* Model */,
 				C5A7A4A525912D270059D666 /* NewsfeedUIApp.swift */,
 				C5A7A4A725912D270059D666 /* ContentView.swift */,
 				C5A7A4A925912D290059D666 /* Assets.xcassets */,
@@ -128,6 +156,7 @@
 			files = (
 				C5A7A4AD25912D290059D666 /* Preview Assets.xcassets in Resources */,
 				C5A7A4AA25912D290059D666 /* Assets.xcassets in Resources */,
+				B4D02A4C2592665A00622655 /* ResponsePayload.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +168,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5A7A4A825912D270059D666 /* ContentView.swift in Sources */,
+				B4D02A4325924C9100622655 /* NewsFeedConstants.swift in Sources */,
 				C5A7A4A625912D270059D666 /* NewsfeedUIApp.swift in Sources */,
+				B4D02A4025924A6200622655 /* NewsFeedAPIResponse.swift in Sources */,
+				B4D02A3A25924A3900622655 /* NewsFeedModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
