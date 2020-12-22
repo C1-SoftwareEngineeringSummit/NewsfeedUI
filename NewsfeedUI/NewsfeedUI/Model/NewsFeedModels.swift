@@ -35,7 +35,7 @@ extension NewsFeed {
         /// Hitting NewsFeeds - Everything API Call
         // Only fetching first page of API response
         let page = "1"
-        let urlString = "\(NewsFeedConstants.Endpoint.everthing)\(page)"
+        let urlString = "\(NewsFeedConstants.Endpoint.everything)\(page)"
         
         guard let feedsURL = URL(string: urlString) else { return }
         let networkTask = URLSession.shared.dataTask(with: feedsURL,

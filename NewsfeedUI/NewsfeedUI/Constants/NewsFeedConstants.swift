@@ -9,12 +9,16 @@ import Foundation
 import UIKit
 
 enum NewsFeedConstants {
+    // Provide your API key here
+    static let APIKey = ""
+    
     /// News Feeds' URLs
+    static let endpointURL = String(format: "https://newsapi.org/v2/everything?q=everything&apiKey=%@&language=en&page=", APIKey)
+    
     enum Endpoint {
-        static let everthing: String = "https://newsapi.org/v2/everything?q=everything&apiKey=36ce277d0b73433998e928a526a10e05&language=en&page="
-        
-        static let apple: String =
-            "https://newsapi.org/v2/everything?q=apple&apiKey=36ce277d0b73433998e928a526a10e05&language=en&page="
+        static var everything: String = String(format: "https://newsapi.org/v2/everything?q=everything&apiKey=%@&language=en&page=", APIKey)
+        static var apple: String =
+            String(format: "https://newsapi.org/v2/everything?q=apple&apiKey=%@&language=en&page=", APIKey)
     }
     
     /// API Response Statuses
