@@ -101,7 +101,8 @@ struct TextOverlay: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(gradient)
+            Rectangle()
+                .fill(gradient)
             Text(text)
                 .font(.headline)
                 .padding()
