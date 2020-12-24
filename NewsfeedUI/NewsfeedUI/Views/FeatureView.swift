@@ -11,12 +11,8 @@ struct FeatureView: View {
     var article: NewsArticle
 
     var body: some View {
-        Color.purple
+        RemoteImage(url: article.urlToImage, mockRequest: true)
             .aspectRatio(3 / 2, contentMode: .fit)
-//        article.image
-//            .resizable()
-//            .aspectRatio(contentMode: 3 / 2, contentMode: ContentMode.fill)
-//            .clipped()
             .overlay(TextOverlay(text: article.title))
     }
 }
@@ -34,7 +30,8 @@ struct TextOverlay: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(gradient)
+            Rectangle()
+                .fill(gradient)
             Text(text)
                 .font(.headline)
                 .padding()
