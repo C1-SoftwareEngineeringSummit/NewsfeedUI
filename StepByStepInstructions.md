@@ -75,21 +75,18 @@ struct FeatureView_Previews: PreviewProvider {
 }
 ```
 
-4. Replace the `Text` in the `body` with the `image` for the current `article`
+4. Replace the `Text` in the `body` with an image for the current `article`
 ```swift
 var body: some View {
-    article.image
-        .resizable()
-        .aspectRatio(contentMode: 3 / 2, contentMode: .fill)
-        .clipped()
+    RemoteImage(url: article.urlToImage, mockRequest: true)
+        .aspectRatio(3 / 2, contentMode: .fit)
 }
 ```
 
-* `.resizable()` allows this `Image` to be resized.
-* `.aspectRatio(contentMode: 3 / 2, contentMode: .fill)` sets the aspect ratio for the `image`, and causes it to scale up so that it fills the entire 3:2 frame.
-* `.clipped()` means that any parts of the `image` outside of the 3:2 frame will not be visible.
+* We use a `RemoteImage` to download and display the image for this `article`. Right now, we set `mockRequest` to `true`, meaning that this `RemoteImage` won't make any network requests. Instead, it displays a random image from our `Assets.xcassets` catalog. If you want your app to make network requests, feel free to set `mockRequest` to `false` (or remove that parameter completely, it's `false` by default). Be aware that doing so will cause a default image to show up in the Canvas preview!
+* `.aspectRatio(3 / 2, contentMode: .fit)` sets the aspect ratio for the `RemoteImage` and resizes it to fit into a 3:2 frame.
 
-5. Add a new `TextOverlay` `View` that will overlay the `NewsArticle`'s `title` on top of the `image`. This new `View` should go after the `FeatureView`, but before `FeatureView_Previews`.
+5. Add a new `TextOverlay` `View` that will overlay the `NewsArticle`'s `title` on top of the `RemoteImage`. This new `View` should go after the `FeatureView`, but before `FeatureView_Previews`.
 ```swift
 struct TextOverlay: View {
     var text: String
@@ -104,7 +101,8 @@ struct TextOverlay: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(gradient)
+            Rectangle()
+                .fill(gradient)
             Text(text)
                 .font(.headline)
                 .padding()
@@ -116,18 +114,16 @@ struct TextOverlay: View {
 ```
 
 * `var text` will contain the text that is displayed by this overlay. In our app, this will contain the article's `title`.
-* `gradient` is a `LinearGradient` - this is a blend between two colors over a given distance. Here, we are transitioning from almost-opaque black at the bottom of the `gradient`, to clear in the center of the `gradient`. This gradient will darken the bottom half of our `image`, allowing the white `text` to stand out on top of any `image`.
+* `gradient` is a `LinearGradient` - this is a blend between two colors over a given distance. Here, we are transitioning from almost-opaque black at the bottom of the `gradient`, to clear in the center of the `gradient`. This gradient will darken the bottom half of our `RemoteImage`, allowing the white `text` to stand out on top of any `RemoteImage`.
 * The `body` of the `TextOverlay` is a `ZStack` that places the `text` on top of the `gradient`. Both of these views are aligned using their `.bottomLeading` (bottom-left) corners.
 * The `Text` has some standard `.padding()` applied to all edges, as well as 25 points of additional `.padding` on the `.bottom` edge. This creates enough space at the bottom so our `text` and the highlighted dots of our `CarouselView` don't overlap.
 * `.foregroundColor(.white)` sets the color of our `text` to `.white`.
 
-6. Add a `TextOverlay` to the `FeatureView`'s `image`
+6. Add a `TextOverlay` to the `FeatureView`'s `RemoteImage`
 ```swift
 var body: some View {
-    article.image
-        .resizable()
-        .aspectRatio(contentMode: 3 / 2, contentMode: .fill)
-        .clipped()
+    RemoteImage(url: article.urlToImage, mockRequest: true)
+        .aspectRatio(3 / 2, contentMode: .fit)
         .overlay(TextOverlay(text: article.title))
 }
 ```
@@ -144,10 +140,8 @@ struct FeatureView: View {
     var article: NewsArticle
 
     var body: some View {
-        article.image
-            .resizable()
-            .aspectRatio(contentMode: 3 / 2, contentMode: .fill)
-            .clipped()
+        RemoteImage(url: article.urlToImage, mockRequest: true)
+            .aspectRatio(3 / 2, contentMode: .fit)
             .overlay(TextOverlay(text: article.title))
     }
 }
@@ -165,7 +159,8 @@ struct TextOverlay: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(gradient)
+            Rectangle()
+                .fill(gradient)
             Text(text)
                 .font(.headline)
                 .padding()
@@ -345,24 +340,22 @@ struct CategoryItem_Previews: PreviewProvider {
 ```swift
 var body: some View {
     VStack(alignment: .leading) {
-        article.image
-            .frame(width: 155, height: 155)
-            .resizable()
+        RemoteImage(url: article.urlToImage, mockRequest: true)
             .scaledToFill()
+            .frame(width: 155, height: 155)
             .clipped()
             .cornerRadius(5)
 
         Text(article.title)
-        	.lineLimit(5)
+            .lineLimit(5)
             .font(.headline)
     }
     .frame(width: 155)
     .padding(.leading, 15)
 }
 ```
-* This `VStack` is just like the one we used in `CategoryRow`. It contains an image and some `Text`. The image displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`.
+* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` and some `Text`. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`. Again, we are setting `mockRequest` to `true` so that we use our locally saved images. Feel free to change this to `false` (or delete the parameter, since it's `false` by default), but again be aware that this will cause a placeholder image to show up in the Canvas preview.
 * `.frame(width: 155, height: 155)` will give our image a square frame of 155 points.
-* Our image is `.resizable()`, meaning it can be scaled up and down.
 * `.scaledToFill()` means that the image will scale to fill the entire 155pt x 155pt frame, and `.clipped()` means that any parts of the image outside of the frame will not be visible.
 * `.cornerRadius(5)` will round the corners of our image with a 5pt radius.
 * On our `Text`, `.lineLimit(5)` prevents the `title` from extending beyond 5 lines. Any text beyond the 5 line limit will be truncated with a trailing `...`.
@@ -380,10 +373,9 @@ struct CategoryItem: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            article.image
-                .frame(width: 155, height: 155)
-                .resizable()
+            RemoteImage(url: article.urlToImage, mockRequest: true)
                 .scaledToFill()
+                .frame(width: 155, height: 155)
                 .clipped()
                 .cornerRadius(5)
 

@@ -12,12 +12,10 @@ struct CategoryItem: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Color.purple
-//            article.image
+            RemoteImage(url: article.urlToImage, mockRequest: true)
+                .scaledToFill()
                 .frame(width: 155, height: 155)
-//                .resizable()
-//                .scaledToFill()
-//                .clipped()
+                .clipped()
                 .cornerRadius(5)
 
             Text(article.title)
