@@ -33,7 +33,7 @@ struct ContentView: View {
                         .listRowInsets(EdgeInsets())
                 }
             }
-            .navigationTitle("News Feed")
+            .navigationTitle("Newsfeed")
         }
     }
 }
