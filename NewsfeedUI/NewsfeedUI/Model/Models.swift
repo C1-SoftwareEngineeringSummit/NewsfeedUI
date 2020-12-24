@@ -8,10 +8,12 @@
 import Foundation
 
 class NewsFeed: ObservableObject {
+    @Published var general = [NewsArticle]()
+    @Published var sports = [NewsArticle]()
+    @Published var health = [NewsArticle]()
+    @Published var entertainment = [NewsArticle]()
 
-//            Step 2: Uncomment Following Code lines to visualize api content
-//class NewsFeed: ObservableObject, RandomAccessCollection {
-    @Published var news = [NewsArticle]()
+    /// For previews
     static var sampleData: [NewsArticle] {
         guard let pathString = Bundle(for: NewsFeed.self).path(forResource: Constants.ResponsePayload.everything, ofType: "json"),
               let jsonString = try? NSString(contentsOfFile: pathString, encoding: String.Encoding.utf8.rawValue),
@@ -23,49 +25,68 @@ class NewsFeed: ObservableObject {
         return response.articles ?? []
     }
 
-    init() {
-        // Hitting Actual Endpoint
-        startLoadingNewsFeeds()
-        
-        // Reading From JSON
-//        startLoadingFromJSON()
+    init(mockResponses: Bool = false) {
+        if mockResponses {
+            startLoadingFromJSON()
+        } else {
+            startLoadingNewsFeeds()
+        }
     }
-    
-//            Step 3: Uncomment Following Code lines to visualize api content
-//    var startIndex: Int { news.startIndex }
-//    var endIndex: Int { news.endIndex }
-//    subscript(position: Int) -> NewsArticle {
-//        return news[position]
-//    }
 }
 
 // MARK: - Make API Call by hitting NewsAPI Endpoint
 extension NewsFeed {
     /// Make API Call to fetch news feeds
     func startLoadingNewsFeeds() {
-        /// Hitting NewsFeeds - Everything API Call
-        // Only fetching first page of API response
-        let page = "1"
-        let urlString = "\(Constants.Endpoint.everything)\(page)"
-        
-        guard let feedsURL = URL(string: urlString) else { return }
-        let networkTask = URLSession.shared.dataTask(with: feedsURL,
-                                              completionHandler: parseAPIResponse(data:response:error:))
-        networkTask.resume()
+        if let generalUrl = URL(string: Constants.Endpoint.general) {
+            URLSession.shared.dataTask(with: generalUrl) { (data, response, error) in
+                let generalArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.general.append(contentsOf: generalArticles)
+                }
+            }.resume()
+        }
+
+        if let sportsUrl = URL(string: Constants.Endpoint.sports) {
+            URLSession.shared.dataTask(with: sportsUrl) { (data, response, error) in
+                let sportsArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.sports.append(contentsOf: sportsArticles)
+                }
+            }.resume()
+        }
+
+        if let healthUrl = URL(string: Constants.Endpoint.health) {
+            URLSession.shared.dataTask(with: healthUrl) { (data, response, error) in
+                let healthArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.health.append(contentsOf: healthArticles)
+                }
+            }.resume()
+        }
+
+        if let entertainmentUrl = URL(string: Constants.Endpoint.entertainment) {
+            URLSession.shared.dataTask(with: entertainmentUrl) { (data, response, error) in
+                let entertainmentArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.entertainment.append(contentsOf: entertainmentArticles)
+                }
+            }.resume()
+        }
     }
     
     // MARK :- Parse API Response
-    func parseAPIResponse(data: Data?, response: URLResponse?, error: Error?) {
+    func parseAPIResponse(data: Data?, response: URLResponse?, error: Error?) -> [NewsArticle] {
         guard error == nil else {
             print("Error: \(error!)")
-            return
+            return []
         }
         guard let data = data else {
             print("No data found to be displayed.")
-            return
+            return []
         }
         
-        parseJSONData(data)
+        return parseJSONData(data)
     }
 }
 
@@ -74,7 +95,12 @@ extension NewsFeed {
     /// Load API Response from JSON File
     func startLoadingFromJSON() {
         guard let jsonData = readJsonFromFile(resourceName: Constants.ResponsePayload.everything) else { return }
-        parseJSONData(jsonData)
+        let mockArticles = parseJSONData(jsonData)
+
+        self.general.append(contentsOf: mockArticles)
+        self.sports.append(contentsOf: mockArticles)
+        self.health.append(contentsOf: mockArticles)
+        self.entertainment.append(contentsOf: mockArticles)
     }
     
     func readJsonFromFile(resourceName: String) -> Data? {
@@ -93,25 +119,21 @@ extension NewsFeed {
 
 // MARK:- Helper Method | Parse JSON Data
 extension NewsFeed {
-    private func parseJSONData(_ data: Data) {
+    private func parseJSONData(_ data: Data) -> [NewsArticle] {
         var response: NewsApiResponse
         do {
             response = try JSONDecoder().decode(NewsApiResponse.self, from: data)
         } catch {
             print("Error parsing the API response: \(error)")
-            return
+            return []
         }
         
         if response.status != Constants.APIResponse.statusOK {
             print("API response status is not OK: \(response.status)")
-            return
+            return []
         }
-        
-        // [SwiftUI] Publishing changes from background threads is not allowed; make sure to publish values from the main thread (via operators like receive(on:)) on model updates.
-        let feeds =  response.articles ?? []
-        DispatchQueue.main.async {
-            self.news.append(contentsOf: feeds)
-        }
+
+        return response.articles ?? []
     }
 }
 

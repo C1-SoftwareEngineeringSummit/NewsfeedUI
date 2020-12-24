@@ -8,17 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var newsFeed = NewsFeed()
+    @ObservedObject var newsFeed = NewsFeed(mockResponses: true)
     
     var body: some View {
         NavigationView {
-            Text("List Should be displayed here.\n Uncomment Code lines given in Step 1, Step 2 and Step 3 to visualize api content.")
-                .padding(10)
-//            Step 1: Uncomment Following Code lines to visualize api content
-//            List(newsFeed) { (article: NewsArticle) in
-//                Text(article.title + "\n")
-//            }
-        .navigationBarTitle("iOS SES 2021")
+            List {
+                if !newsFeed.general.isEmpty {
+                    CarouselView(articles: Array(newsFeed.general.prefix(5)))
+                        .listRowInsets(EdgeInsets())
+                }
+
+                if !newsFeed.sports.isEmpty {
+                    CategoryRow(categoryName: "Sports", articles: newsFeed.sports)
+                        .listRowInsets(EdgeInsets())
+                }
+
+                if !newsFeed.health.isEmpty {
+                    CategoryRow(categoryName: "Health", articles: newsFeed.health)
+                        .listRowInsets(EdgeInsets())
+                }
+
+                if !newsFeed.entertainment.isEmpty {
+                    CategoryRow(categoryName: "Entertainment", articles: newsFeed.entertainment)
+                        .listRowInsets(EdgeInsets())
+                }
+            }
+            .navigationTitle("Newsfeed")
         }
     }
 }
