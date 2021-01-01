@@ -21,6 +21,7 @@ struct CategoryItem: View {
             Text(article.title)
                 .lineLimit(5)
                 .font(.headline)
+                .foregroundColor(.black)
         }
         .frame(width: 155)
         .padding(.leading, 15)

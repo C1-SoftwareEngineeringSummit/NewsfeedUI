@@ -13,7 +13,9 @@ struct CarouselView: View {
     var body: some View {
         TabView() {
             ForEach(articles) { article in
-                FeatureView(article: article)
+                NavigationLink(destination: DetailView(article: article)) {
+                    FeatureView(article: article)
+                }
             }
         }
         .aspectRatio(3 / 2, contentMode: .fit)

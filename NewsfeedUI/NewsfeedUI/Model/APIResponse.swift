@@ -16,6 +16,20 @@ class NewsArticle: Codable, Identifiable {
     var url: String
     var publishedAt: String
     var content: String?
+
+    lazy var datePublished: String = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+
+        if let date = dateFormatter.date(from: publishedAt) {
+            let displayFormatter = DateFormatter()
+            displayFormatter.dateFormat = "MMM. d, yyyy h:mm a zzz"
+            return displayFormatter.string(from: date)
+        }
+        return publishedAt
+    }()
     
     enum CodingKeys: String, CodingKey {
         case author
