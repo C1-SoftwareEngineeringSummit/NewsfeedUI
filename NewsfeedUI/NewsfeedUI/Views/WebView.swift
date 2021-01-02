@@ -5,16 +5,17 @@
 //  Created by Levine, Merlin on 12/30/20.
 //
 
+import SafariServices
 import SwiftUI
 
-struct WebView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+/// SwiftUI wrapper for SFSafariViewController
+struct WebView: UIViewControllerRepresentable {
+    let url: URL
 
-struct WebView_Previews: PreviewProvider {
-    static var previews: some View {
-        WebView()
+    func makeUIViewController(context: UIViewControllerRepresentableContext<WebView>) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<WebView>) {
     }
 }
