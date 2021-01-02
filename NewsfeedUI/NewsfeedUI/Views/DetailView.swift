@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DetailView: View {
     var article: NewsArticle
+    @State var showWebView = false
     
     var body: some View {
         ScrollView {
@@ -34,9 +35,14 @@ struct DetailView: View {
 
                 HStack {
                     Spacer()
-                    NavigationLink(destination: WebView()) {
-                        Text("View Full Article")
-                    }.buttonStyle(FilledButtonStyle())
+                    Button("View Full Article") {
+                        showWebView = true
+                    }
+                    .buttonStyle(FilledButtonStyle())
+                    .sheet(isPresented: $showWebView, content: {
+                        // modally present web view
+                        WebView(url:URL(string: article.url)!)
+                    })
                     Spacer()
                 }
             }.padding()
