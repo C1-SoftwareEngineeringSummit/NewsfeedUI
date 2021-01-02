@@ -465,3 +465,87 @@ struct CategoryRow_Previews: PreviewProvider {
 > If you start another live preview in the Canvas, you should be able to see your completed `CategoryRow`! Each article should have a "card" displaying a thumbnail and a title, and the whole category of articles should scroll horizontally.
 
 > ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+
+# Building the Home Screen
+Now that we've created a `CarouselView` and `CategoryRow`, we can use those two pieces to create the home screen of our app! The home screen will contain a `CarouselView` at the top to highlight a few trending stories, and multiple `CategoryRows` to group articles with related content.
+
+1. Open `ContentView.swift`. This `View` is the first screen that a user sees when they open the app for the first time.
+
+2. Add the following property to the `ContentView` `struct`
+```swift
+struct ContentView: View {
+    @ObservedObject var newsFeed = NewsFeed(mockResponses: true)
+```
+
+* `@ObservedObject` is a property wrapper. It tells our `ContentView` to observe the state of the `newsFeed` and react to any changes. This means that when the `newsFeed` changes, any views that depend on it will be reloaded. This happens when our app finishes fetching news articles and loads them into the `newsFeed`.
+* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`. For now we are setting `mockResponses` to `true`, which means that we will be using mock responses and won't be making any API calls at all. Feel free to change this to `false` (or delete the parameter, since it's `false` by default), but be aware that this will cause the Canvas preview to show up blank.
+
+3. In the `body`, wrap the existing `Text` inside of a `NavigationView` and give it a `.navigationTitle`
+```swift
+var body: some View {
+    NavigationView {
+        Text("Hello, World!")
+            .navigationTitle("Newsfeed")
+    }
+}
+```
+
+* `NavigationView` is used to build hierarchical navigation. It will add a navigation bar to our screen, which will contain the title set by `.navigationTitle("News Feed")`. Later on, this `NavigationView` will allow us to navigate to new screens when we tap on different articles.
+
+4. Next, replace the `Text` with a `List` that contains just the `CarouselView` for now
+```swift
+var body: some View {
+    NavigationView {
+        List {
+            if !newsFeed.general.isEmpty {
+                CarouselView(articles: Array(newsFeed.general.prefix(5)))
+                    .listRowInsets(EdgeInsets())
+            }
+        }
+        .navigationTitle("Newsfeed")
+    }
+}
+```
+
+* A `List` is just a container that will present rows of data arranged in a single column. Right now, we are only providing one row of data, which is our `CarouselView`.
+* Before we add the `CarouselView` to the `List`, we check to see if `!newsFeed.general.isEmpty`. We do this because we need at least 1 article in `newsFeed.general` in order to create a `CarouselView`. Otherwise, we would have nothing to display. So, if there's at least 1 article in `newsFeed.general`, we display the `CarouselView`. Otherwise, we don't add it to the `List`.
+* When we create the `CarouselView`, we provide it with `Array(newsFeed.general.prefix(5))`. This is will take up to 5 articles from the General category, and display them in the `CarouselView`.
+* We use `.listRowInsets(EdgeInsets())` to set the edge insets to zero for the `CarouselView`. This allows the content to extend to the edges of the screen.
+
+5. Add 3 `CategoryRow`s to the `List`, one for each of the categories Sports, Health, and Entertainment.
+```swift
+var body: some View {
+    NavigationView {
+        List {
+            if !newsFeed.general.isEmpty {
+                CarouselView(articles: Array(newsFeed.general.prefix(5)))
+                    .listRowInsets(EdgeInsets())
+            }
+
+            if !newsFeed.sports.isEmpty {
+                CategoryRow(categoryName: "Sports", articles: newsFeed.sports)
+                    .listRowInsets(EdgeInsets())
+            }
+
+            if !newsFeed.health.isEmpty {
+                CategoryRow(categoryName: "Health", articles: newsFeed.health)
+                    .listRowInsets(EdgeInsets())
+            }
+
+            if !newsFeed.entertainment.isEmpty {
+                CategoryRow(categoryName: "Entertainment", articles: newsFeed.entertainment)
+                    .listRowInsets(EdgeInsets())
+            }
+        }
+        .navigationTitle("Newsfeed")
+    }
+}
+```
+
+* For each of these categories, we use an `if` statement to make sure the category has at least 1 article. If there is at least 1 article, we add a `CategoryRow` to the `List`. Otherwise, we don't add anything to the list for the empty category.
+* The `CategoryRow`s are given a `categoryName` and a list of `articles` to display. For instance, the `CategoryRow` for Sports is given the name `"Sports"` and the `newsFeed.sports` articles. This uses the `CategoryRow` that we built earlier to display all of the Sports articles in a horizontal `ScrollView`. This is the same for the other categories as well.
+* Each `CategoryRow` uses `.listRowInsets(EdgeInsets())`, which sets the edge insets to zero. Again, this allows the content to extend to the very edges of the screen.
+
+> Refresh the Canvas and start a live preview. You should be able to see your completed home screen! You should be able to scroll horizontally between different articles in the `CarouselView`, and you should be able to scroll vertically to view all of the different categories of articles. Additionally, each `CategoryRow` should scroll horizontally.
+
+> ** INSERT IMAGE OR GIF HERE OF THE MAIN SCREEN **
