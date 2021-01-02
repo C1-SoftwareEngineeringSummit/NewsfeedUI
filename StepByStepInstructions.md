@@ -1,5 +1,28 @@
+# NewsfeedUI
+In this workshop we'll be building a basic news app that will display different categories of news articles and allow users to view details on each article. Our main interface will be a vertically scrolling list containing horizontal scroll views for different categories (sports, health, business, etc.). Throughout this workshop, we'll primarily explore how to build composable views that we can put together to create more complex views. We'll also explore how to navigate between views.
+
+> **Insert gif or picture of finished app**
+
+## Getting Set Up for API Calls
+If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
+
+However, if you do get a key, make sure to open up the `Constants.swift` file under the `Constants` group, and replace the `static let APIKey` empty string with your personal key.
+
+> **insert an image of the Constants.swift file with the api key here**
+
+## Pre-Made Files
+In this workshop, there are a few pre-made files that we'll be using to make things a little easier.
+
+The first file is `Constants.swift`. If you have a personal API key to use, you've probably already looked at this file. It's not very complicated, just a place to keep a few constants that are used throughout the rest of the workshop.
+
+Next is `APIResponse.swift`. In this file, you'll find the classes `NewsArticle` and `NewsApiResponse`. These are the data models for our app. `NewsArticle` represents a single article, and `NewsApiResponse` represents a response from the News API, which contains many different `NewsArticle`s.
+
+`Models.swift` contains a class called `NewsFeed`. This class will fetch and store all of the different news articles from the API. It has a property for each different category of news (`general`, `sports`, `health`, `entertainment`). These properties are arrays of `NewsArticle`s corresponding to the different categories. As you can see, `NewsFeed` is an `ObservableObject`. An `ObservableObject` will publish announcements when it's values have changed so that SwiftUI can react to those changes and update the user interface. The properties in this class (`general`, `sports`, `health`, `entertainment`) are all marked as `@Published`, which tells SwiftUI that these properties should trigger change notifications. Later on in the workshop, you'll see how these properties are used to reactively display news articles, but if you want to read more about this topic, [this is a good place to start](https://www.hackingwithswift.com/quick-start/swiftui/observable-objects-environment-objects-and-published). `NewsFeed` also contains a `static var sampleData`, which is just a sample API response that we will use to test our app throughout the workshop.
+
+Lastly, we have `RemoteImage.swift`. This class defines a `View` called `RemoteImage` that will download and display an image from any URL that you provide to it. The implementation details are a bit out of the scope of this tutorial, but we will at least see how to use this `View` later on in the workshop.
+
 # Displaying Featured Articles
-Now, we'll create a view that can display multiple featured articles in a "carousel" (or page view). Users will be able to swipe left and right to view different featured articles, and a page control at the bottom will display the current page in the form of highlighted dots.
+The first thing that we'll do in this workshop is create a view that can display multiple featured articles in a "carousel" (or page view). Users will be able to swipe left and right to view different featured articles, and a page control at the bottom will display the current page in the form of highlighted dots.
 
 > ** INSERT IMAGE OR GIF HERE OF THE CAROUSEL **
 
@@ -7,6 +30,12 @@ Now, we'll create a view that can display multiple featured articles in a "carou
 First, we'll build a `CarouselView`, which will display multiple pages of content and allow users to swipe left and right between different pages.
 
 1. Create a new SwiftUI file in the `Views` folder called `CarouselView.swift`
+
+* To create a new file in the `Views` folder, right-click on the folder and select `New File...`
+* Filter the file types for `SwiftUI View` and select that file type
+* Name the file `CarouselView.swift`, make sure the `NewsfeedUI` target is selected in the `Targets` list, and click `Create`
+
+> **Insert a few images showing how to create a new file**
 
 2. Insert a `var` at the top of the `CarouselView` `struct` called `articles`
 ```swift
