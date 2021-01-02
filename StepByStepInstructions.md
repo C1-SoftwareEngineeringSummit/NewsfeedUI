@@ -449,7 +449,7 @@ struct ContentView: View {
 ```
 
 * `@ObservedObject` is a property wrapper. It tells our `ContentView` to observe the state of the `newsFeed` and react to any changes. This means that when the `newsFeed` changes, any views that depend on it will be reloaded. This happens when our app finishes fetching news articles and loads them into the `newsFeed`.
-* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`, for example. For now, we are setting `mockResponses` to `true`, which means that we won't be making any API calls at all. Feel free to change this to `false` (or delete the parameter, since it's `false` by default), but be aware that this will cause the Canvas preview to show up blank.
+* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`. For now we are setting `mockResponses` to `true`, which means that we will be using mock responses and won't be making any API calls at all. Feel free to change this to `false` (or delete the parameter, since it's `false` by default), but be aware that this will cause the Canvas preview to show up blank.
 
 3. In the `body`, wrap the existing `Text` inside of a `NavigationView` and give it a `.navigationTitle`
 ```swift
