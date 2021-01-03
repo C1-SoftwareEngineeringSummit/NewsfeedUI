@@ -1,14 +1,14 @@
 # NewsfeedUI
 In this workshop we'll be building a basic news app that will display different categories of news articles and allow users to view details on each article. Our main interface will be a vertically scrolling list containing horizontal scroll views for different categories (sports, health, business, etc.). Throughout this workshop, we'll primarily explore how to build composable views that we can put together to create more complex views. We'll also explore how to navigate between views.
 
-> **Insert gif or picture of finished app**
+<img src="./StepByStepResources/newsfeed_home_screen.png" width="300"/>   <img src="./StepByStepResources/arsenal_detail.png" width="300"/>   <img src="./StepByStepResources/arsenal_webview.png" width="300"/>
 
 ## Getting Set Up for API Calls
 If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
 
 However, if you do get a key, make sure to open up the `Constants.swift` file under the `Constants` group, and replace the `static let APIKey` empty string with your personal key.
 
-> **insert an image of the Constants.swift file with the api key here**
+<img src="./StepByStepResources/api_key_location.png" width="600"/>
 
 ## Pre-Made Files
 In this workshop, there are a few pre-made files that we'll be using to make things a little easier.
@@ -24,7 +24,7 @@ Lastly, we have `RemoteImage.swift`. This class defines a `View` called `RemoteI
 # Displaying Featured Articles
 The first thing that we'll do in this workshop is create a view that can display multiple featured articles in a "carousel" (or page view). Users will be able to swipe left and right to view different featured articles, and a page control at the bottom will display the current page in the form of highlighted dots.
 
-> ** INSERT IMAGE OR GIF HERE OF THE CAROUSEL **
+<img src="./StepByStepResources/carousel_preview.png" width="300"/>
 
 ## CarouselView
 First, we'll build a `CarouselView`, which will display multiple pages of content and allow users to swipe left and right between different pages.
@@ -35,7 +35,9 @@ First, we'll build a `CarouselView`, which will display multiple pages of conten
 * Filter the file types for `SwiftUI View` and select that file type
 * Name the file `CarouselView.swift`, make sure the `NewsfeedUI` target is selected in the `Targets` list, and click `Create`
 
-> **Insert a few images showing how to create a new file**
+<img src="./StepByStepResources/new_file_menu.png" width="300"/>
+<img src="./StepByStepResources/file_type_screen.png" width="600"/>
+<img src="./StepByStepResources/name_file_screen.png" width="600"/>
 
 2. Insert a `var` at the top of the `CarouselView` `struct` called `articles`
 ```swift
@@ -76,14 +78,20 @@ var body: some View {
 * `.tabViewStyle(PageTabViewStyle())` sets our `TabView`'s style to `PageTabViewStyle`. This is what makes our `TabView` appear as a page view (or "carousel") with highlighted dots to track our tab position. Without this style, our `TabView` would appear with a full tab bar at the bottom of the screen, much like the iOS Music or Phone app.
 * `.indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))` is what causes the highlighted dots to appear at the bottom of our `TabView`. We are setting the page index (the highlighted dots) to be displayed with a background `.always`. We will actually remove this line later, but for now it allows us to view the highlighted dots on a white background.
 
-> At this point, you can resume your Canvas preview to see how the `CarouselView` looks so far. You can also press the circular ▶️ button directly above the simulator in your Canvas. This will start a live preview of the `CarouselView`. You can use your cursor to swipe the pages left and right, and the highlighted dots at the bottom should update as well. Click the ⏹️ button to stop the live demo.
+> At this point, you can resume your Canvas preview to see how the `CarouselView` looks so far. If the Canvas is not visible, you can open it by using the small menu to the right of your file tabs. If your Canvas preview is paused, there will be a "Resume" button at the top of the Canvas that you can use. Alternatively, you can use the shortcut `CMD + OPT + P` to refresh the Canvas preview.
 
-> ** INSERT IMAGE OR GIF HERE OF THE LIVE PREVIEW **
+<img src="./StepByStepResources/canvas_menu.png" width="800"/>
+
+> You can also press the circular ▶️ button directly above the simulator in your Canvas. This will start a live preview of the `CarouselView`. You can use your cursor to swipe the pages left and right, and the highlighted dots at the bottom should update as well. Click the ⏹️ button to stop the live demo.
+
+<img src="./StepByStepResources/play_button.png" width="250"/>   <img src="./StepByStepResources/stop_button.png" width="250"/>
+
+<img src="./StepByStepResources/carousel_title_only.png" width="300"/>
 
 ## FeatureView
 Our `CarouselView` works okay for now, but it lacks visual appeal. To fix this, we're going to create a new `FeatureView` that will replace the `CarouselView`'s existing `Text(article.title)`. `FeatureView` will display an article's image with the title overlayed on top of it.
 
-> ** INSERT IMAGE OR GIF HERE OF THE FEATURE VIEW **
+<img src="./StepByStepResources/feature_view.png" width="300"/>
 
 1. Create a new SwiftUI file in the `Views` folder called `FeatureView.swift`
 
@@ -112,7 +120,7 @@ var body: some View {
 }
 ```
 
-* We use a `RemoteImage` to download and display the image for this `article`. Right now, we set `mockRequest` to `true`, meaning that this `RemoteImage` won't make any network requests. Instead, it displays a random image from our `Assets.xcassets` catalog. If you want your app to make network requests, feel free to set `mockRequest` to `false` (or remove that parameter completely, it's `false` by default). Be aware that doing so will cause a default image to show up in the Canvas preview!
+* We use a `RemoteImage` to download and display the image for this `article`. Right now, we set `mockRequest` to `true`, meaning that this `RemoteImage` won't make any network requests. Instead, it displays a random image from our `Assets.xcassets` catalog. If you already added your API key to `Constants.swift`, and you want your app to make network requests, feel free to set `mockRequest` to `false` (or remove that parameter completely, it's `false` by default). Be aware that doing so will cause a default image to show up in the Canvas preview!
 * `.aspectRatio(3 / 2, contentMode: .fit)` sets the aspect ratio for the `RemoteImage` and resizes it to fit into a 3:2 frame.
 
 5. Add a new `TextOverlay` `View` that will overlay the `NewsArticle`'s `title` on top of the `RemoteImage`. This new `View` should go after the `FeatureView`, but before `FeatureView_Previews`.
@@ -159,7 +167,7 @@ var body: some View {
 
 > Resume the Canvas preview if you haven't already, and see what the `FeatureView` looks like now!
 
-> ** INSERT IMAGE OR GIF HERE OF THE FEATURE VIEW **
+<img src="./StepByStepResources/feature_view.png" width="300"/>
 
 Before we move on, your entire `FeatureView.swift` should look like this
 ```swift
@@ -236,12 +244,12 @@ struct CarouselView_Previews: PreviewProvider {
 
 > Resume the Canvas preview now to see the completed `CarouselView`! You can also start a live preview in the Canvas to make sure that you are still able to swipe left and right between different `FeatureView`s in the carousel.
 
-> ** INSERT IMAGE OR GIF HERE OF THE CAROUSEL VIEW **
+<img src="./StepByStepResources/carousel_preview.png" width="300"/>
 
 # Displaying Categories of Articles
 In this section, we'll create the following view, which will allow us to display multiple article "cards" in a horizontal scroll view. One of these horizontal scroll views will contain all articles from a given category (technology, business, sports, music, etc.).
 
-> ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+<img src="./StepByStepResources/category_row.png" width="300"/>
 
 ## CategoryRow
 First, we will build a horizontal scroll view to contain all of the articles in a single category. We'll call it `CategoryRow`.
@@ -343,10 +351,12 @@ var body: some View {
 
 > At this point, press the circular ▶️ button to start a live preview of the `CategoryRow` in your Canvas. You can use your cursor to swipe the `ScrollView` and see it in action! Again, click the ⏹️ button to stop the live demo.
 
-> ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+<img src="./StepByStepResources/category_row_title_only.png" width="300"/>
 
 ## CategoryItem
 Next, we'll build a `CategoryItem` view that will display a single news article as a thumbnail and a title. Multiple `CategoryItem`s will go inside our `CategoryRow`'s horizontal `ScrollView` to display an entire category of news articles.
+
+<img src="./StepByStepResources/category_item.png" width="300"/>
 
 1. Create a new SwiftUI file in the `Views` folder called `CategoryItem.swift`
 
@@ -383,15 +393,17 @@ var body: some View {
     .padding(.leading, 15)
 }
 ```
-* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` and some `Text`. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`. Again, we are setting `mockRequest` to `true` so that we use our locally saved images. Feel free to change this to `false` (or delete the parameter, since it's `false` by default), but again be aware that this will cause a placeholder image to show up in the Canvas preview.
+* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` and some `Text`. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`. Again, we are setting `mockRequest` to `true` so that we use our locally saved images. If you already set up your API key, feel free to change this to `false` (or delete the parameter, since it's `false` by default), but again be aware that this will cause a placeholder image to show up in the Canvas preview.
 * `.frame(width: 155, height: 155)` will give our image a square frame of 155 points.
 * `.scaledToFill()` means that the image will scale to fill the entire 155pt x 155pt frame, and `.clipped()` means that any parts of the image outside of the frame will not be visible.
 * `.cornerRadius(5)` will round the corners of our image with a 5pt radius.
 * On our `Text`, `.lineLimit(5)` prevents the `title` from extending beyond 5 lines. Any text beyond the 5 line limit will be truncated with a trailing `...`.
 * We also specify `.frame(width: 155)` for the entire `VStack`. This restricts the entire `VStack` to a width of 155pt, so that none of the `article`'s `title` will extend beyond the edge of the image. Instead, it will wrap around. You can see this in the Canvas if you resume the preview.
-* We also added `.padding` to the `.leading` (left) edge of the `VStack`. When the `CategoryItem`s are lined up horizontally, this padding will provide 15 points of space between each item, and it will also provide 15 points of space between the first card and the left edge of our phone screen. 
+* We also added `.padding` to the `.leading` (left) edge of the `VStack`. When the `CategoryItem`s are lined up horizontally, this padding will provide 15 points of space between each item, and it will also provide 15 points of space between the first item and the left edge of our phone screen.
 
 > Make sure to open the Canvas and resume the preview to visualize an individual `CategoryItem`!
+
+<img src="./StepByStepResources/category_item.png" width="300"/>
 
 Before we move on, your entire `CategoryItem.swift` should look like this
 ```swift
@@ -464,10 +476,12 @@ struct CategoryRow_Previews: PreviewProvider {
 
 > If you start another live preview in the Canvas, you should be able to see your completed `CategoryRow`! Each article should have a "card" displaying a thumbnail and a title, and the whole category of articles should scroll horizontally.
 
-> ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+<img src="./StepByStepResources/category_row.png" width="300"/>
 
 # Building the Home Screen
 Now that we've created a `CarouselView` and `CategoryRow`, we can use those two pieces to create the home screen of our app! The home screen will contain a `CarouselView` at the top to highlight a few trending stories, and multiple `CategoryRows` to group articles with related content.
+
+<img src="./StepByStepResources/home_screen_preview.png" width="300"/>
 
 1. Open `ContentView.swift`. This `View` is the first screen that a user sees when they open the app for the first time.
 
@@ -478,7 +492,7 @@ struct ContentView: View {
 ```
 
 * `@ObservedObject` is a property wrapper. It tells our `ContentView` to observe the state of the `newsFeed` and react to any changes. This means that when the `newsFeed` changes, any views that depend on it will be reloaded. This happens when our app finishes fetching news articles and loads them into the `newsFeed`.
-* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`. For now we are setting `mockResponses` to `true`, which means that we will be using mock responses and won't be making any API calls at all. Feel free to change this to `false` (or delete the parameter, since it's `false` by default), but be aware that this will cause the Canvas preview to show up blank.
+* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`, for example. For now we are setting `mockResponses` to `true`, which means that we will be using mock responses and won't be making any API calls at all. Again, if you set up your API key at the beginning of this tutorial, you can change this to `false` (or delete the parameter, since it's `false` by default), but be aware that this will cause the Canvas preview to show up blank.
 
 3. In the `body`, wrap the existing `Text` inside of a `NavigationView` and give it a `.navigationTitle`
 ```swift
@@ -490,7 +504,7 @@ var body: some View {
 }
 ```
 
-* `NavigationView` is used to build hierarchical navigation. It will add a navigation bar to our screen, which will contain the title set by `.navigationTitle("News Feed")`. Later on, this `NavigationView` will allow us to navigate to new screens when we tap on different articles.
+* `NavigationView` is used to build hierarchical navigation. It will add a navigation bar to our screen, which will contain the title set by `.navigationTitle("Newsfeed")`. Later on, this `NavigationView` will allow us to navigate to new screens when we tap on different articles.
 
 4. Next, replace the `Text` with a `List` that contains just the `CarouselView` for now
 ```swift
@@ -542,10 +556,10 @@ var body: some View {
 }
 ```
 
-* For each of these categories, we use an `if` statement to make sure the category has at least 1 article. If there is at least 1 article, we add a `CategoryRow` to the `List`. Otherwise, we don't add anything to the list for the empty category.
+* For each of these categories, we use an `if` statement to make sure the category has at least 1 article. If there is at least 1 article, we add a `CategoryRow` to the `List`. Otherwise, we don't add anything to the `List` for the empty category.
 * The `CategoryRow`s are given a `categoryName` and a list of `articles` to display. For instance, the `CategoryRow` for Sports is given the name `"Sports"` and the `newsFeed.sports` articles. This uses the `CategoryRow` that we built earlier to display all of the Sports articles in a horizontal `ScrollView`. This is the same for the other categories as well.
 * Each `CategoryRow` uses `.listRowInsets(EdgeInsets())`, which sets the edge insets to zero. Again, this allows the content to extend to the very edges of the screen.
 
 > Refresh the Canvas and start a live preview. You should be able to see your completed home screen! You should be able to scroll horizontally between different articles in the `CarouselView`, and you should be able to scroll vertically to view all of the different categories of articles. Additionally, each `CategoryRow` should scroll horizontally.
 
-> ** INSERT IMAGE OR GIF HERE OF THE MAIN SCREEN **
+<img src="./StepByStepResources/home_screen_live_preview.png" width="300"/>
