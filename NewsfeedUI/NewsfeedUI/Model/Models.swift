@@ -25,8 +25,8 @@ class NewsFeed: ObservableObject {
         return response.articles ?? []
     }
 
-    init(mockResponses: Bool = false) {
-        if mockResponses {
+    init() {
+        if Constants.mockResponses {
             startLoadingFromJSON()
         } else {
             startLoadingNewsFeeds()

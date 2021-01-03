@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var newsFeed = NewsFeed(mockResponses: true)
+    @ObservedObject var newsFeed = NewsFeed()
     
     var body: some View {
         NavigationView {

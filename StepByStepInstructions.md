@@ -6,7 +6,7 @@ In this workshop we'll be building a basic news app that will display different 
 ## Getting Set Up for API Calls
 If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
 
-However, if you do get a key, make sure to open up the `Constants.swift` file under the `Constants` group, and replace the `static let APIKey` empty string with your personal key.
+If you do get a key, feel free to open up the `Constants.swift` file under the `Constants` group, and replace the `static let APIKey` empty string with your personal key. This will set the `mockResponses` variable to `true`, triggering networking code to hit live data. However, it might be best to do this after going through the workshop because some of the Xcode previews will either be missing or show placeholder values when using live data.
 
 <img src="./StepByStepResources/api_key_location.png" width="600"/>
 
@@ -115,12 +115,12 @@ struct FeatureView_Previews: PreviewProvider {
 4. Replace the `Text` in the `body` with an image for the current `article`
 ```swift
 var body: some View {
-    RemoteImage(url: article.urlToImage, mockRequest: true)
+    RemoteImage(url: article.urlToImage)
         .aspectRatio(3 / 2, contentMode: .fit)
 }
 ```
 
-* We use a `RemoteImage` to download and display the image for this `article`. Right now, we set `mockRequest` to `true`, meaning that this `RemoteImage` won't make any network requests. Instead, it displays a random image from our `Assets.xcassets` catalog. If you already added your API key to `Constants.swift`, and you want your app to make network requests, feel free to set `mockRequest` to `false` (or remove that parameter completely, it's `false` by default). Be aware that doing so will cause a default image to show up in the Canvas preview!
+* We use a `RemoteImage` to download and display the image for this `article`. If you haven't added your API key to `Constants.swift`, `RemoteImage` won't make any network requests. Instead, it displays a random image from our `Assets.xcassets` catalog. If you do however add your API key, `RemoteImage` will try to make a network request to pull the live image from the url. Be aware that doing so will cause a default placeholder image to show up in the Canvas preview!
 * `.aspectRatio(3 / 2, contentMode: .fit)` sets the aspect ratio for the `RemoteImage` and resizes it to fit into a 3:2 frame.
 
 5. Add a new `TextOverlay` `View` that will overlay the `NewsArticle`'s `title` on top of the `RemoteImage`. This new `View` should go after the `FeatureView`, but before `FeatureView_Previews`.
@@ -159,7 +159,7 @@ struct TextOverlay: View {
 6. Add a `TextOverlay` to the `FeatureView`'s `RemoteImage`
 ```swift
 var body: some View {
-    RemoteImage(url: article.urlToImage, mockRequest: true)
+    RemoteImage(url: article.urlToImage)
         .aspectRatio(3 / 2, contentMode: .fit)
         .overlay(TextOverlay(text: article.title))
 }
@@ -177,7 +177,7 @@ struct FeatureView: View {
     var article: NewsArticle
 
     var body: some View {
-        RemoteImage(url: article.urlToImage, mockRequest: true)
+        RemoteImage(url: article.urlToImage)
             .aspectRatio(3 / 2, contentMode: .fit)
             .overlay(TextOverlay(text: article.title))
     }
@@ -379,7 +379,7 @@ struct CategoryItem_Previews: PreviewProvider {
 ```swift
 var body: some View {
     VStack(alignment: .leading) {
-        RemoteImage(url: article.urlToImage, mockRequest: true)
+        RemoteImage(url: article.urlToImage)
             .scaledToFill()
             .frame(width: 155, height: 155)
             .clipped()
@@ -393,7 +393,9 @@ var body: some View {
     .padding(.leading, 15)
 }
 ```
-* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` and some `Text`. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`. Again, we are setting `mockRequest` to `true` so that we use our locally saved images. If you already set up your API key, feel free to change this to `false` (or delete the parameter, since it's `false` by default), but again be aware that this will cause a placeholder image to show up in the Canvas preview.
+* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` and some `Text`. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`. 
+If you never added your API key to `Constants.swift`, `RemoteImage` will pull from our locally saved images. Otherwise, `RemoteImage` will try to pull the live image. But again, be aware that doing so will cause a default placeholder image to show up in the Canvas preview!
+
 * `.frame(width: 155, height: 155)` will give our image a square frame of 155 points.
 * `.scaledToFill()` means that the image will scale to fill the entire 155pt x 155pt frame, and `.clipped()` means that any parts of the image outside of the frame will not be visible.
 * `.cornerRadius(5)` will round the corners of our image with a 5pt radius.
@@ -414,7 +416,7 @@ struct CategoryItem: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            RemoteImage(url: article.urlToImage, mockRequest: true)
+            RemoteImage(url: article.urlToImage)
                 .scaledToFill()
                 .frame(width: 155, height: 155)
                 .clipped()
@@ -488,11 +490,11 @@ Now that we've created a `CarouselView` and `CategoryRow`, we can use those two 
 2. Add the following property to the `ContentView` `struct`
 ```swift
 struct ContentView: View {
-    @ObservedObject var newsFeed = NewsFeed(mockResponses: true)
+    @ObservedObject var newsFeed = NewsFeed()
 ```
 
 * `@ObservedObject` is a property wrapper. It tells our `ContentView` to observe the state of the `newsFeed` and react to any changes. This means that when the `newsFeed` changes, any views that depend on it will be reloaded. This happens when our app finishes fetching news articles and loads them into the `newsFeed`.
-* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`, for example. For now we are setting `mockResponses` to `true`, which means that we will be using mock responses and won't be making any API calls at all. Again, if you set up your API key at the beginning of this tutorial, you can change this to `false` (or delete the parameter, since it's `false` by default), but be aware that this will cause the Canvas preview to show up blank.
+* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`, for example. Again, if you set up your API key at the beginning of this tutorial, you will be fetching live data, but be aware that this will cause the Canvas preview to show up blank.
 
 3. In the `body`, wrap the existing `Text` inside of a `NavigationView` and give it a `.navigationTitle`
 ```swift

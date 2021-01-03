@@ -12,7 +12,7 @@ struct CategoryItem: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            RemoteImage(url: article.urlToImage, mockRequest: true)
+            RemoteImage(url: article.urlToImage)
                 .scaledToFill()
                 .frame(width: 155, height: 155)
                 .clipped()

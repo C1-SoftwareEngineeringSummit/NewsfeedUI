@@ -23,7 +23,7 @@ struct CategoryRow: View {
                     ForEach(articles) { article in
                         NavigationLink(destination: DetailView(article: article)) {
                             CategoryItem(article: article)
-                        }
+                        }.buttonStyle(PlainButtonStyle())
                     }
                 }
             }

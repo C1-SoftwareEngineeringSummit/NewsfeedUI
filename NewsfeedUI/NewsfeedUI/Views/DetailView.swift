@@ -19,7 +19,7 @@ struct DetailView: View {
                     .font(.title)
                     .fontWeight(.semibold)
 
-                RemoteImage(url: article.urlToImage, mockRequest: true)
+                RemoteImage(url: article.urlToImage)
                     .aspectRatio(contentMode: .fit)
                     .padding(.bottom)
 
