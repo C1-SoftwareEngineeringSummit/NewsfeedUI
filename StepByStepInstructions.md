@@ -24,7 +24,7 @@ Lastly, we have `RemoteImage.swift`. This class defines a `View` called `RemoteI
 # Displaying Featured Articles
 The first thing that we'll do in this workshop is create a view that can display multiple featured articles in a "carousel" (or page view). Users will be able to swipe left and right to view different featured articles, and a page control at the bottom will display the current page in the form of highlighted dots.
 
-> ** INSERT IMAGE OR GIF HERE OF THE CAROUSEL **
+<img src="./StepByStepResources/carousel_preview.png" width="300"/>
 
 ## CarouselView
 First, we'll build a `CarouselView`, which will display multiple pages of content and allow users to swipe left and right between different pages.
@@ -35,7 +35,7 @@ First, we'll build a `CarouselView`, which will display multiple pages of conten
 * Filter the file types for `SwiftUI View` and select that file type
 * Name the file `CarouselView.swift`, make sure the `NewsfeedUI` target is selected in the `Targets` list, and click `Create`
 
-> **Insert a few images showing how to create a new file**
+<img src="./StepByStepResources/new_file_menu.png" width="200"/>   <img src="./StepByStepResources/file_type_screen.png" width="600"/>   <img src="./StepByStepResources/name_file_screen.png" width="600"/>
 
 2. Insert a `var` at the top of the `CarouselView` `struct` called `articles`
 ```swift
@@ -78,12 +78,12 @@ var body: some View {
 
 > At this point, you can resume your Canvas preview to see how the `CarouselView` looks so far. You can also press the circular ▶️ button directly above the simulator in your Canvas. This will start a live preview of the `CarouselView`. You can use your cursor to swipe the pages left and right, and the highlighted dots at the bottom should update as well. Click the ⏹️ button to stop the live demo.
 
-> ** INSERT IMAGE OR GIF HERE OF THE LIVE PREVIEW **
+<img src="./StepByStepResources/carousel_title_only.png" width="300"/>
 
 ## FeatureView
 Our `CarouselView` works okay for now, but it lacks visual appeal. To fix this, we're going to create a new `FeatureView` that will replace the `CarouselView`'s existing `Text(article.title)`. `FeatureView` will display an article's image with the title overlayed on top of it.
 
-> ** INSERT IMAGE OR GIF HERE OF THE FEATURE VIEW **
+<img src="./StepByStepResources/feature_view.png" width="300"/>
 
 1. Create a new SwiftUI file in the `Views` folder called `FeatureView.swift`
 
@@ -159,7 +159,7 @@ var body: some View {
 
 > Resume the Canvas preview if you haven't already, and see what the `FeatureView` looks like now!
 
-> ** INSERT IMAGE OR GIF HERE OF THE FEATURE VIEW **
+<img src="./StepByStepResources/feature_view.png" width="300"/>
 
 Before we move on, your entire `FeatureView.swift` should look like this
 ```swift
@@ -236,12 +236,12 @@ struct CarouselView_Previews: PreviewProvider {
 
 > Resume the Canvas preview now to see the completed `CarouselView`! You can also start a live preview in the Canvas to make sure that you are still able to swipe left and right between different `FeatureView`s in the carousel.
 
-> ** INSERT IMAGE OR GIF HERE OF THE CAROUSEL VIEW **
+<img src="./StepByStepResources/carousel_preview.png" width="300"/>
 
 # Displaying Categories of Articles
 In this section, we'll create the following view, which will allow us to display multiple article "cards" in a horizontal scroll view. One of these horizontal scroll views will contain all articles from a given category (technology, business, sports, music, etc.).
 
-> ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+<img src="./StepByStepResources/category_row.png" width="300"/>
 
 ## CategoryRow
 First, we will build a horizontal scroll view to contain all of the articles in a single category. We'll call it `CategoryRow`.
@@ -343,10 +343,12 @@ var body: some View {
 
 > At this point, press the circular ▶️ button to start a live preview of the `CategoryRow` in your Canvas. You can use your cursor to swipe the `ScrollView` and see it in action! Again, click the ⏹️ button to stop the live demo.
 
-> ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+<img src="./StepByStepResources/category_row_title_only.png" width="300"/>
 
 ## CategoryItem
 Next, we'll build a `CategoryItem` view that will display a single news article as a thumbnail and a title. Multiple `CategoryItem`s will go inside our `CategoryRow`'s horizontal `ScrollView` to display an entire category of news articles.
+
+<img src="./StepByStepResources/category_item.png" width="300"/>
 
 1. Create a new SwiftUI file in the `Views` folder called `CategoryItem.swift`
 
@@ -392,6 +394,8 @@ var body: some View {
 * We also added `.padding` to the `.leading` (left) edge of the `VStack`. When the `CategoryItem`s are lined up horizontally, this padding will provide 15 points of space between each item, and it will also provide 15 points of space between the first card and the left edge of our phone screen. 
 
 > Make sure to open the Canvas and resume the preview to visualize an individual `CategoryItem`!
+
+<img src="./StepByStepResources/category_item.png" width="300"/>
 
 Before we move on, your entire `CategoryItem.swift` should look like this
 ```swift
@@ -464,10 +468,12 @@ struct CategoryRow_Previews: PreviewProvider {
 
 > If you start another live preview in the Canvas, you should be able to see your completed `CategoryRow`! Each article should have a "card" displaying a thumbnail and a title, and the whole category of articles should scroll horizontally.
 
-> ** INSERT IMAGE OR GIF HERE OF THE HORIZONTAL SCROLL VIEW **
+<img src="./StepByStepResources/category_row.png" width="300"/>
 
 # Building the Home Screen
 Now that we've created a `CarouselView` and `CategoryRow`, we can use those two pieces to create the home screen of our app! The home screen will contain a `CarouselView` at the top to highlight a few trending stories, and multiple `CategoryRows` to group articles with related content.
+
+<img src="./StepByStepResources/home_screen_preview.png" width="300"/>
 
 1. Open `ContentView.swift`. This `View` is the first screen that a user sees when they open the app for the first time.
 
@@ -548,4 +554,4 @@ var body: some View {
 
 > Refresh the Canvas and start a live preview. You should be able to see your completed home screen! You should be able to scroll horizontally between different articles in the `CarouselView`, and you should be able to scroll vertically to view all of the different categories of articles. Additionally, each `CategoryRow` should scroll horizontally.
 
-> ** INSERT IMAGE OR GIF HERE OF THE MAIN SCREEN **
+<img src="./StepByStepResources/home_screen_live_preview.png" width="300"/>
