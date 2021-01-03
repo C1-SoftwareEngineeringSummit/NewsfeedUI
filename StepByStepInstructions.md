@@ -1,16 +1,32 @@
 # NewsfeedUI
+
 In this workshop we'll be building a basic news app that will display different categories of news articles and allow users to view details on each article. Our main interface will be a vertically scrolling list containing horizontal scroll views for different categories (sports, health, business, etc.). Throughout this workshop, we'll primarily explore how to build composable views that we can put together to create more complex views. We'll also explore how to navigate between views.
 
 <img src="./StepByStepResources/newsfeed_home_screen.png" width="300"/>   <img src="./StepByStepResources/arsenal_detail.png" width="300"/>   <img src="./StepByStepResources/arsenal_webview.png" width="300"/>
 
-## Getting Set Up for API Calls
+## Initial Project Setup
+
+1. Open your Terminal, and navigate to the directory in which you want to download the repository.
+2. Run the following command in Terminal to clone the repo: `git clone https://github.com/C1-SoftwareEngineeringSummit/NewsfeedUI.git`
+3. Navigate into the starter project within the newly cloned repo: `cd NewsfeedUI/NewsfeedUI-Starter`
+   * **NOTE:** You can also use the Finder app to navigate to `NewsfeedUI-Starter`
+4. Open the starter project in Xcode by running the following command: `xed .`
+   * **NOTE:** You can also double-click the `NewsfeedUI-Starter.xcodeproj` file in your Finder app
+5. Once the project is open in Xcode, click on the top level folder (NewsfeedUI-Starter) in the project navigator, then click on "General" settings, and then find the "Identity" settings section.
+6. Inside Identity settings, modify the "Bundle Identifier" by adding your name to the end of it. For example, change it from `com.ses.NewsfeedUI-Starter.MyName` to `com.ses.NotesUI-Starter-SteveJobs`
+
+<img src="./StepByStepResources/bundle_identifier.png" width="300" />
+
+### Getting Set Up for API Calls
+
 If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
 
 If you do get a key, feel free to open up the `Constants.swift` file under the `Constants` group, and replace the `static let APIKey` empty string with your personal key. This will set the `mockResponses` variable to `true`, triggering networking code to hit live data. However, it might be best to do this after going through the workshop because some of the Xcode previews will either be missing or show placeholder values when using live data.
 
 <img src="./StepByStepResources/api_key_location.png" width="600"/>
 
-## Pre-Made Files
+### Provided Files & Resources
+
 In this workshop, there are a few pre-made files that we'll be using to make things a little easier.
 
 The first file is `Constants.swift`. If you have a personal API key to use, you've probably already looked at this file. It's not very complicated, just a place to keep a few constants that are used throughout the rest of the workshop.
