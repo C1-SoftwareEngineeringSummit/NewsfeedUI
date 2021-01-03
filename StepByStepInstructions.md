@@ -1,7 +1,7 @@
 # NewsfeedUI
 In this workshop we'll be building a basic news app that will display different categories of news articles and allow users to view details on each article. Our main interface will be a vertically scrolling list containing horizontal scroll views for different categories (sports, health, business, etc.). Throughout this workshop, we'll primarily explore how to build composable views that we can put together to create more complex views. We'll also explore how to navigate between views.
 
-![NewsfeedUI Home Screen](./StepByStepResources/newsfeed_home_screen.png)   ![NewsfeedUI Detail Screen](./StepByStepResources/arsenal_detail.png)   ![NewsfeedUI WebView](./StepByStepResources/arsenal_webview.png)
+<img src="./StepByStepResources/newsfeed_home_screen.png" width="300"/>   <img src="./StepByStepResources/arsenal_detail.png" width="300"/>   <img src="./StepByStepResources/arsenal_webview.png" width="300"/>
 
 ## Getting Set Up for API Calls
 If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
