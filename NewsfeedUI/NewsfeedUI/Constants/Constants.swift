@@ -9,8 +9,11 @@ import Foundation
 import UIKit
 
 enum Constants {
-    // TODO: Provide your API key here
-    static let APIKey = ""
+    // TODO: Replace the empty string with a string of your API key. If left empty, API responses will be mocked.
+    static let APIKey: String = ""
+
+    /// Determines whether api responses should be mocked based on the presense of an api key.
+    static let mockResponses = APIKey.isEmpty
 
     enum Endpoint {
         static let general = endpoint(for: "general")

@@ -11,7 +11,7 @@ struct FeatureView: View {
     var article: NewsArticle
 
     var body: some View {
-        RemoteImage(url: article.urlToImage, mockRequest: true)
+        RemoteImage(url: article.urlToImage)
             .aspectRatio(3 / 2, contentMode: .fit)
             .overlay(TextOverlay(text: article.title))
     }
