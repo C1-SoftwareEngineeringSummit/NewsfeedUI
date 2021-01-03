@@ -10,7 +10,7 @@ This project has been updated to work with Xcode 12.3, Swift 5.3, and iOS 14.3.
 
 In this repo, you'll find two versions of the NewsfeedUI App: a starter project and the completed project.
 
-To get started, open the `Newsfeed-Starter.xcodeproj` file located in the `NewsfeedUI-Starter` directory. Please refer to the [Step By Step Instructions]() for detailed instructions on building this app. During the workshop you can use these instructions to follow along.
+To get started, open the `Newsfeed-Starter.xcodeproj` file located in the `NewsfeedUI-Starter` directory. Please refer to the [Step By Step Instructions](./StepByStepInstructions.md) for detailed instructions on building this app. During the workshop you can use these instructions to follow along.
 
 ## Bonus Functionality
 
