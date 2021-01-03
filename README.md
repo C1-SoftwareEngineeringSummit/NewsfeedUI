@@ -16,9 +16,13 @@ To get started, open the `Newsfeed-Starter.xcodeproj` file located in the `Newsf
 
 ## Bonus Functionality
 
-If you're feeling up to it, here is some additionaly functionality to work on:
+If you're feeling up to it, you can add more news categories to the home screen.
 
-* // TODO - Add bonus items if needed...
+To do this, you will first need to create URLs for the additional news categories. Open `Constants.swift` and look at `enum Endpoint`. Here we have `static let` constants for each of the existing categories `general`, `sports`, `health`, and `entertainment`. First, take a look at the [News API's top headlines endpoint](https://newsapi.org/docs/endpoints/top-headlines) and choose a new category to add (`technology` for example). Then, add 1 new `static let` for each additional news category that you want to display.
+
+Next, you need to use those URLs to add some more API calls to `Models.swift`. Open that file, and look at `func startLoadingNewsFeeds()`. That function contains multiple API calls to retrieve the General, Sports, Health, and Entertainment categories of news. You will need to add 1 new API call for each new category URL you added to `Constants.swift`. You can copy and paste one of the existing API requests and adjust it slightly to work with a different category. Don't forget to also add a `@Published var` to the `NewsFeed` class for each additional category.
+
+Lastly, open `ContentView.swift` and add 1 new `CategoryRow` to the `List` for each additional news category you have added. This will look the same as all of the other `CategoryRows`, with some minor changes to use your new category. 
 
 ### App Design
 
