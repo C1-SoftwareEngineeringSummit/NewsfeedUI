@@ -35,7 +35,9 @@ First, we'll build a `CarouselView`, which will display multiple pages of conten
 * Filter the file types for `SwiftUI View` and select that file type
 * Name the file `CarouselView.swift`, make sure the `NewsfeedUI` target is selected in the `Targets` list, and click `Create`
 
-<img src="./StepByStepResources/new_file_menu.png" width="200"/>   <img src="./StepByStepResources/file_type_screen.png" width="600"/>   <img src="./StepByStepResources/name_file_screen.png" width="600"/>
+<img src="./StepByStepResources/new_file_menu.png" width="300"/>
+<img src="./StepByStepResources/file_type_screen.png" width="600"/>
+<img src="./StepByStepResources/name_file_screen.png" width="600"/>
 
 2. Insert a `var` at the top of the `CarouselView` `struct` called `articles`
 ```swift
@@ -76,7 +78,13 @@ var body: some View {
 * `.tabViewStyle(PageTabViewStyle())` sets our `TabView`'s style to `PageTabViewStyle`. This is what makes our `TabView` appear as a page view (or "carousel") with highlighted dots to track our tab position. Without this style, our `TabView` would appear with a full tab bar at the bottom of the screen, much like the iOS Music or Phone app.
 * `.indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))` is what causes the highlighted dots to appear at the bottom of our `TabView`. We are setting the page index (the highlighted dots) to be displayed with a background `.always`. We will actually remove this line later, but for now it allows us to view the highlighted dots on a white background.
 
-> At this point, you can resume your Canvas preview to see how the `CarouselView` looks so far. You can also press the circular ▶️ button directly above the simulator in your Canvas. This will start a live preview of the `CarouselView`. You can use your cursor to swipe the pages left and right, and the highlighted dots at the bottom should update as well. Click the ⏹️ button to stop the live demo.
+> At this point, you can resume your Canvas preview to see how the `CarouselView` looks so far. If the Canvas is not visible, you can open it by using the small menu to the right of your file tabs. If your Canvas preview is paused, there will be a "Resume" button at the top of the Canvas that you can use. Alternatively, you can use the shortcut `CMD + OPT + P` to refresh the Canvas preview.
+
+<img src="./StepByStepResources/canvas_menu.png" width="800"/>
+
+> You can also press the circular ▶️ button directly above the simulator in your Canvas. This will start a live preview of the `CarouselView`. You can use your cursor to swipe the pages left and right, and the highlighted dots at the bottom should update as well. Click the ⏹️ button to stop the live demo.
+
+<img src="./StepByStepResources/play_button.png" width="250"/>   <img src="./StepByStepResources/stop_button.png" width="250"/>
 
 <img src="./StepByStepResources/carousel_title_only.png" width="300"/>
 
