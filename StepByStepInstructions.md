@@ -8,7 +8,7 @@ If you want this app to work with real API calls, make sure to get a [News API d
 
 However, if you do get a key, make sure to open up the `Constants.swift` file under the `Constants` group, and replace the `static let APIKey` empty string with your personal key.
 
-> **insert an image of the Constants.swift file with the api key here**
+<img src="./StepByStepResources/api_key_location.png" width="600"/>
 
 ## Pre-Made Files
 In this workshop, there are a few pre-made files that we'll be using to make things a little easier.
