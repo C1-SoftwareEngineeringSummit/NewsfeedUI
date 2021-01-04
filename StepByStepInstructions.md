@@ -630,12 +630,12 @@ Text(article.description ?? "Description")
 8. Add the following code for a button after the article description `Text` view.
 ```swift
 Button("View Full Article") { }
-  .padding(.vertical, 10)
-  .padding(.horizontal, 50)
-  .background(Color.blue)
-  .foregroundColor(Color.white)
-  .cornerRadius(10)
-  .font(.title3)
+    .padding(.vertical, 10)
+    .padding(.horizontal, 50)
+    .background(Color.blue)
+    .foregroundColor(Color.white)
+    .cornerRadius(10)
+    .font(.title3)
 ```
 
 * The `Button` view takes a string label and has a trailing closure `{}` where we can add the button's action (we will address this in a bit).
@@ -646,25 +646,25 @@ Button("View Full Article") { }
 
 Adding too much style in your main view can get messy, so let's refactor this style into a separate struct that conforms to the `ButtonStyle` protocol. Use the code below to add the new `FilledButtonStyle` struct directly after your `DetailView` struct, then modify the original button with `.buttonStyle(FilledButtonStyle())`.
 ```swift
-      Button("View Full Article") { }
-        .buttonStyle(FilledButtonStyle())
+          Button("View Full Article") { }
+              .buttonStyle(FilledButtonStyle())
+        }
     }
-  }
 }
 
 struct FilledButtonStyle: ButtonStyle {
-  var backgroundColor: Color = .blue
-  var foregroundColor: Color = .white
+    var backgroundColor: Color = .blue
+    var foregroundColor: Color = .white
 
-  func makeBody(configuration: Self.Configuration) -> some View {
-    configuration.label
-      .padding(.vertical, 10)
-      .padding(.horizontal, 50)
-      .background(backgroundColor)
-      .cornerRadius(10)
-      .font(.title3)
-      .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
-  }
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding(.vertical, 10)
+            .padding(.horizontal, 50)
+            .background(backgroundColor)
+            .cornerRadius(10)
+            .font(.title3)
+            .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
+    }
 }
 ```
 
@@ -675,79 +675,79 @@ struct FilledButtonStyle: ButtonStyle {
 You'll notice that the `Button` is left-aligned due to the alignment of its parent `VStack`. We can remedy this by embedding the `Button` inside an `HStack` and adding `Spacer` views before and after the `Button`, centering it horizontally. That looks better!
 ```swift
 HStack {
-  Spacer()
-  Button("View Full Article") { }
-    .buttonStyle(FilledButtonStyle())
-  Spacer()
+    Spacer()
+    Button("View Full Article") { }
+        .buttonStyle(FilledButtonStyle())
+    Spacer()
 }
 ```
 
 9. It's possible for the content of `DetailView` to extend past the bottom of the screen. Let's wrap up the UI by adding `padding` to the `VStack`, embedding our `VStack` inside a `ScrollView` with a  `.navigationBarTitleDisplayMode(.inline)` modifier (this makes the nav bar compact when we enter the `DetailView` from another screen).
 ```swift
 ScrollView {
-  VStack(alignment: .leading) {
-    ...
-  }.padding()
+    VStack(alignment: .leading) {
+        ...
+    }.padding()
 }.navigationBarTitleDisplayMode(.inline)
 ```
 
 Your code should now look something like this:
 ```swift
 struct DetailView: View {
-  var article: NewsArticle
+    var article: NewsArticle
 
-  var body: some View {
-    ScrollView {
-      VStack(alignment: .leading) {
-        Text(article.title)
-          .italic()
-          .font(.title)
-          .fontWeight(.semibold)
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text(article.title)
+                    .italic()
+                    .font(.title)
+                    .fontWeight(.semibold)
 
-        RemoteImage(url: article.urlToImage)
-          .aspectRatio(contentMode: .fit)
-          .padding(.bottom)
+                RemoteImage(url: article.urlToImage)
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.bottom)
 
-        Text("By: \(article.author ?? "Author")")
-          .bold()
-        Text(article.datePublished)
-          .font(.subheadline)
-          .padding(.bottom)
+                Text("By: \(article.author ?? "Author")")
+                    .bold()
+                Text(article.datePublished)
+                    .font(.subheadline)
+                    .padding(.bottom)
 
-        Text(article.description ?? "Description")
-          .font(.body)
-          .padding(.bottom)
+                Text(article.description ?? "Description")
+                    .font(.body)
+                    .padding(.bottom)
 
-        HStack {
-          Spacer()
-          Button("View Full Article") { }
-              .buttonStyle(FilledButtonStyle())
-          Spacer()
-        }
-      }.padding()
-    }.navigationBarTitleDisplayMode(.inline)
-  }
+                HStack {
+                    Spacer()
+                    Button("View Full Article") { }
+                        .buttonStyle(FilledButtonStyle())
+                    Spacer()
+                }
+            }.padding()
+        }.navigationBarTitleDisplayMode(.inline)
+    }
 }
 
 struct FilledButtonStyle: ButtonStyle {
-  var backgroundColor: Color = .blue
-  var foregroundColor: Color = .white
+    var backgroundColor: Color = .blue
+    var foregroundColor: Color = .white
 
-  func makeBody(configuration: Self.Configuration) -> some View {
-    configuration.label
-      .padding(.vertical, 10)
-      .padding(.horizontal, 50)
-      .background(backgroundColor)
-      .cornerRadius(10)
-      .font(.title3)
-      .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
-  }
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding(.vertical, 10)
+            .padding(.horizontal, 50)
+            .background(backgroundColor)
+            .cornerRadius(10)
+            .font(.title3)
+            .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
+    }
 }
 
 struct DetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    DetailView(article: NewsFeed.sampleData[4])
-  }
+    static var previews: some View {
+        DetailView(article: NewsFeed.sampleData[4])
+    }
 }
 ```
 
@@ -761,9 +761,9 @@ We need to be able to navigate to the `DetailView` from two places: `FeatureView
 1. Open up `CarouselView.swift` and embed the `FeatureView` inside a `NavigationLink` with `DetailView(article: article)` as the destination. Add the `.buttonStyle(PlainButtonStyle())` style modifier to the `NavigationLink` to remove the default blue text color.
 ```swift
 ForEach(articles) { article in
-  NavigationLink(destination: DetailView(article: article)) {
-    FeatureView(article: article)
-  }.buttonStyle(PlainButtonStyle())
+    NavigationLink(destination: DetailView(article: article)) {
+        FeatureView(article: article)
+    }.buttonStyle(PlainButtonStyle())
 }
 ```
 
@@ -773,9 +773,9 @@ ForEach(articles) { article in
 2. Open up `CategoryRow.swift` and embed the `CategoryItem` inside a `NavigationLink` with `DetailView(article: article)` as the destination. Again, add the `.buttonStyle(PlainButtonStyle())` style modifier.
 ```swift
 ForEach(articles) { article in
-  NavigationLink(destination: DetailView(article: article)) {
-    CategoryItem(article: article)
-  }.buttonStyle(PlainButtonStyle())
+    NavigationLink(destination: DetailView(article: article)) {
+        CategoryItem(article: article)
+    }.buttonStyle(PlainButtonStyle())
 }
 ```
 
