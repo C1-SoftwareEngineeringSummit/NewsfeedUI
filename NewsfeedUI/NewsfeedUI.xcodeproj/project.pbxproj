@@ -61,6 +61,7 @@
 				142EFB432592842200B89574 /* CategoryItem.swift */,
 				141351B82592927B000250F5 /* CategoryRow.swift */,
 				1490A2C52593C34000923C1A /* CarouselView.swift */,
+				C5A7A4A725912D270059D666 /* ContentView.swift */,
 				916368B7259BE90B00370DC3 /* DetailView.swift */,
 				1490A2C82593C35F00923C1A /* FeatureView.swift */,
 				1490A2CC2594EF3700923C1A /* RemoteImage.swift */,
@@ -78,13 +79,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		B4D02A4725925CD000622655 /* Constants */ = {
+		B4D02A4725925CD000622655 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				B4D02A4B2592665A00622655 /* ResponsePayload.json */,
 				B4D02A4225924C9100622655 /* Constants.swift */,
 			);
-			path = Constants;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C5A7A49925912D270059D666 = {
@@ -106,11 +107,10 @@
 		C5A7A4A425912D270059D666 /* NewsfeedUI */ = {
 			isa = PBXGroup;
 			children = (
-				B4D02A4725925CD000622655 /* Constants */,
-				B4D02A3825924A1700622655 /* Model */,
-				142EFB422592837A00B89574 /* Views */,
 				C5A7A4A525912D270059D666 /* NewsfeedUIApp.swift */,
-				C5A7A4A725912D270059D666 /* ContentView.swift */,
+				142EFB422592837A00B89574 /* Views */,
+				B4D02A3825924A1700622655 /* Model */,
+				B4D02A4725925CD000622655 /* Resources */,
 				C5A7A4A925912D290059D666 /* Assets.xcassets */,
 				C5A7A4AE25912D290059D666 /* Info.plist */,
 				C5A7A4AB25912D290059D666 /* Preview Content */,
