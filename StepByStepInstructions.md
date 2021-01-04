@@ -739,7 +739,7 @@ struct FilledButtonStyle: ButtonStyle {
 ```
 
 * To conform to `ButtonStyle` we need to implement the `makeBody` function which takes a `ButtonStyleConfiguration` parameter. This simply allows us to access properties relevant to the button such as `label` and `isPressed`.
-* We add all of our stylig we had before to the `configuration.label` property.
+* We add all of our styling we had before to the `configuration.label` property.
 * Note: we take advantage of the `configuration.isPressed` property to change the foregroundColor `opacity`, which gives feedback to the user that the `Button` is in its `pressed` state.
 
 You'll notice that the `Button` is left-aligned due to the alignment of its parent `VStack`. We can remedy this by embedding the `Button` inside an `HStack` and adding `Spacer` views before and after the `Button`, centering it horizontally. That looks better!
