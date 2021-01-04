@@ -4,7 +4,7 @@ In this workshop we'll be building a basic news app that will display different 
 
 <img src="./StepByStepResources/newsfeed_home_screen.png" width="300"/>   <img src="./StepByStepResources/arsenal_detail.png" width="300"/>   <img src="./StepByStepResources/arsenal_webview.png" width="300"/>
 
-## Initial Project Setup
+## 1. Initial Project Setup
 
 1. Open your Terminal, and navigate to the directory in which you want to download the repository
 2. Run the following command in Terminal to clone the repo: `git clone https://github.com/C1-SoftwareEngineeringSummit/NewsfeedUI.git`
@@ -40,7 +40,7 @@ Under the "Views" group, we have also have `RemoteImage.swift`. This class defin
 
 Lastly, we have `WebView.swift`. This struct is a SwiftUI wrapper around a `SFSafariViewController` which allows us to present a Safari browser view in SwiftUI. Again, this is a bit out of the scope of this tutorial, but feel free to check it out.
 
-## Displaying Featured Articles
+## 2. Displaying Featured Articles
 
 The first thing that we'll do in this workshop is create a view that can display multiple featured articles in a "carousel" (or page view). Users will be able to swipe left and right to view different featured articles, and a page control at the bottom will display the current page in the form of highlighted dots.
 
@@ -285,7 +285,7 @@ struct CarouselView_Previews: PreviewProvider {
 
 <img src="./StepByStepResources/carousel_preview.png" width="300"/>
 
-## Displaying Categories of Articles
+## 3. Displaying Categories of Articles
 
 In this section we'll create the view that display categories of articles. This new view will display multiple article "cards" in a horizontal scroll view. One of these horizontal scroll views will contain all articles from a given category (technology, business, sports, music, etc.).
 
@@ -537,7 +537,7 @@ struct CategoryRow_Previews: PreviewProvider {
 
 <img src="./StepByStepResources/category_row.png" width="300"/>
 
-## Building the Home Screen
+## 4. Building the Home Screen
 
 Now that we've created a `CarouselView` and `CategoryRow`, we can use those two pieces to create the home screen of our app! The home screen will contain a `CarouselView` at the top to highlight a few trending stories, and multiple `CategoryRows` to group articles with related content.
 
@@ -628,10 +628,12 @@ var body: some View {
 
 <img src="./StepByStepResources/home_screen_live_preview.png" width="300"/>
 
-## Displaying Article Details
+## 5. Displaying Article Details
+
 Now that we have our articles displayed in the home screen, we want to be able to click on those articles to view more details. This detail view will provide important summary information about the article such as title, image, author, date published, summary text, and a button that links to the entire article.
 
 ### Creating the DetailView UI
+
 <img src="./StepByStepResources/detail_view.png" width="300"/>
 
 1. Create a new SwiftUI file in the `Views` folder called `DetailView.swift`
@@ -826,7 +828,7 @@ struct DetailView_Previews: PreviewProvider {
 
 Now that we have the `DetailView` UI finished, we need to hook it up to the rest of the app!
 
-## Connecting the DetailView to the Home Screen
+## 6. Connecting the DetailView to the Home Screen
 
 We need to be able to navigate to the `DetailView` from two places: `FeatureView`s in the main carousel, and `CategoryItem`s in the category rows.
 
@@ -856,7 +858,7 @@ ForEach(articles) { article in
 
 > Refresh the Canvas and start a live preview. You should now be able to click on elements in the home screen and navigate to the article details, and back again.
 
-## Opening the Full Article from the Detail Page
+## 7. Opening the Full Article from the Detail Page
 
 Now that we can navigate to the `DetailView` from the home screen, let's wrap up by adding functionality to our "View Full Article" button in the `DetailView`.
 
