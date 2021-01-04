@@ -565,3 +565,253 @@ var body: some View {
 > Refresh the Canvas and start a live preview. You should be able to see your completed home screen! You should be able to scroll horizontally between different articles in the `CarouselView`, and you should be able to scroll vertically to view all of the different categories of articles. Additionally, each `CategoryRow` should scroll horizontally.
 
 <img src="./StepByStepResources/home_screen_live_preview.png" width="300"/>
+
+# Displaying Article Details
+Now that we have our articles displayed in the home screen, we want to be able to click on those articles to view more details. This detail view will provide important summary information about the article such as title, image, author, date published, summary text, and a button that links to the entire article.
+
+## Creating the DetailView UI
+<img src="./StepByStepResources/detail_view.png" width="300"/>
+
+1. Create a new SwiftUI file in the `Views` folder called `DetailView.swift`
+
+2. Add a `var` called `article` that will contain the specific `NewsArticle` to display on this page
+```swift
+struct DetailView: View {
+    var article: NewsArticle
+```
+
+* When we initialize a new `DetailView` we will provide the specific `NewsArticle` to display in the page.
+
+3. Update the `PreviewProvider` to initialize the `DetailView` with a sample `NewsArticle`
+```swift
+struct DetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        DetailView(article: NewsFeed.sampleData[4]) // using 4 to get good representative data
+```
+
+4. Update the `Text` in the `body` to display the `article.title` rather than the static `"Hello, World!"` text and add modifiers for `italic` type, `title` font, and `semibold` font weight.
+```swift
+var body: some View {
+    Text(article.title)
+      .italic()
+      .font(.title)
+      .fontWeight(.semibold)
+}
+```
+
+5. Embed the title you just created in a VStack with `leading` alignment, then include the following code directly under the `Text` to add the article image.
+```swift
+RemoteImage(url: article.urlToImage)
+    .aspectRatio(contentMode: .fit)
+    .padding(.bottom)
+```
+
+* We use `.padding(.bottom)` to add spacing below the image to separate it from the content to follow.
+
+6. Add two new `Text` views below the image: one to display the author and the other to display the date. Add `"By " + (article.author ?? "Author")` inside the first `Text` view and style it `bold`. Add `article.datePublished` inside the second `Text` view and style it with `subheadline` font and `bottom` padding.
+```swift
+Text("By: \(article.author ?? "Author")")
+    .bold()
+Text(article.datePublished)
+    .font(.subheadline)
+    .padding(.bottom)
+```
+
+* In the first `Text` view, we need to use the nil coalescing operator `??` to provide a default value if the optional variable `article.author` is nil.
+* Note: the omission of padding after the first `Text` view is intentional since we want to group these two views together.
+
+7. Now add a `Text` view for the article description with `body` font and `bottom` padding. We need to add the nil coalescing operator here as well.
+```swift
+Text(article.description ?? "Description")
+    .font(.body)
+    .padding(.bottom)
+```
+
+8. Add the following code for a button after the article description `Text` view.
+```swift
+Button("View Full Article") { }
+  .padding(.vertical, 10)
+  .padding(.horizontal, 50)
+  .background(Color.blue)
+  .foregroundColor(Color.white)
+  .cornerRadius(10)
+  .font(.title3)
+```
+
+* The `Button` view takes a string label and has a trailing closure `{}` where we can add the button's action (we will address this in a bit).
+* The vertical and horizontal padding add area around the button in which the background color can fill. Note: `padding` must be specified before `background` or the color won't fill properly. 
+* Setting `.foregroundColor(Color.white)` changes the text to white. 
+* `.cornerRadius(10)` adds curved corners to the button.
+* Finally the button is given a font of `title3`.
+
+Adding too much style in your main view can get messy, so let's refactor this style into a separate struct that conforms to the `ButtonStyle` protocol. Use the code below to add the new `FilledButtonStyle` struct directly after your `DetailView` struct, then modify the original button with `.buttonStyle(FilledButtonStyle())`.
+```swift
+      Button("View Full Article") { }
+        .buttonStyle(FilledButtonStyle())
+    }
+  }
+}
+
+struct FilledButtonStyle: ButtonStyle {
+  var backgroundColor: Color = .blue
+  var foregroundColor: Color = .white
+
+  func makeBody(configuration: Self.Configuration) -> some View {
+    configuration.label
+      .padding(.vertical, 10)
+      .padding(.horizontal, 50)
+      .background(backgroundColor)
+      .cornerRadius(10)
+      .font(.title3)
+      .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
+  }
+}
+```
+
+* To conform to `ButtonStyle` we need to implement the `makeBody` function which takes a `ButtonStyleConfiguration` parameter. This simply allows us to access properties relevant to the button such as `label` and `isPressed`.
+* We add all of our stylig we had before to the `configuration.label` property.
+* Note: we take advantage of the `configuration.isPressed` property to change the foregroundColor `opacity`, which gives feedback to the user that the `Button` is in its `pressed` state.
+
+You'll notice that the `Button` is left-aligned due to the alignment of its parent `VStack`. We can remedy this by embedding the `Button` inside an `HStack` and adding `Spacer` views before and after the `Button`, centering it horizontally. That looks better!
+```swift
+HStack {
+  Spacer()
+  Button("View Full Article") { }
+    .buttonStyle(FilledButtonStyle())
+  Spacer()
+}
+```
+
+9. It's possible for the content of `DetailView` to extend past the bottom of the screen. Let's wrap up the UI by adding `padding` to the `VStack`, embedding our `VStack` inside a `ScrollView` with a  `.navigationBarTitleDisplayMode(.inline)` modifier (this makes the nav bar compact when we enter the `DetailView` from another screen).
+```swift
+ScrollView {
+  VStack(alignment: .leading) {
+    ...
+  }.padding()
+}.navigationBarTitleDisplayMode(.inline)
+```
+
+Your code should now look something like this:
+```swift
+struct DetailView: View {
+  var article: NewsArticle
+
+  var body: some View {
+    ScrollView {
+      VStack(alignment: .leading) {
+        Text(article.title)
+          .italic()
+          .font(.title)
+          .fontWeight(.semibold)
+
+        RemoteImage(url: article.urlToImage)
+          .aspectRatio(contentMode: .fit)
+          .padding(.bottom)
+
+        Text("By: \(article.author ?? "Author")")
+          .bold()
+        Text(article.datePublished)
+          .font(.subheadline)
+          .padding(.bottom)
+
+        Text(article.description ?? "Description")
+          .font(.body)
+          .padding(.bottom)
+
+        HStack {
+          Spacer()
+          Button("View Full Article") { }
+              .buttonStyle(FilledButtonStyle())
+          Spacer()
+        }
+      }.padding()
+    }.navigationBarTitleDisplayMode(.inline)
+  }
+}
+
+struct FilledButtonStyle: ButtonStyle {
+  var backgroundColor: Color = .blue
+  var foregroundColor: Color = .white
+
+  func makeBody(configuration: Self.Configuration) -> some View {
+    configuration.label
+      .padding(.vertical, 10)
+      .padding(.horizontal, 50)
+      .background(backgroundColor)
+      .cornerRadius(10)
+      .font(.title3)
+      .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
+  }
+}
+
+struct DetailView_Previews: PreviewProvider {
+  static var previews: some View {
+    DetailView(article: NewsFeed.sampleData[4])
+  }
+}
+```
+
+Now that we have the `DetailView` UI finished, we need to hook it up to the rest of the app!
+
+## Connecting the DetailView to the Home Screen
+We need to be able to navigate to the `DetailView` from two places: `FeatureView`s in the main carousel, and `CategoryItem`s in the category rows.
+
+<img src="./StepByStepResources/nav.gif" width="300"/>
+
+1. Open up `CarouselView.swift` and embed the `FeatureView` inside a `NavigationLink` with `DetailView(article: article)` as the destination. Add the `.buttonStyle(PlainButtonStyle())` style modifier to the `NavigationLink` to remove the default blue text color.
+```swift
+ForEach(articles) { article in
+  NavigationLink(destination: DetailView(article: article)) {
+    FeatureView(article: article)
+  }.buttonStyle(PlainButtonStyle())
+}
+```
+
+* `NavigationLink` is a SwiftUI view that controls navigation presentation behind the scenes. This easily enables us to simply wrap our view we want to click on (the navigation label) and provide the destination view we want to open. Here we use the trailing closure version of `NavigationLink(destination: Destination, label: () -> Label)` or `NavigationLink(destination: Destination) { some view }`. 
+
+
+2. Open up `CategoryRow.swift` and embed the `CategoryItem` inside a `NavigationLink` with `DetailView(article: article)` as the destination. Again, add the `.buttonStyle(PlainButtonStyle())` style modifier.
+```swift
+ForEach(articles) { article in
+  NavigationLink(destination: DetailView(article: article)) {
+    CategoryItem(article: article)
+  }.buttonStyle(PlainButtonStyle())
+}
+```
+
+> Try running your app. You should now be able to click on elements in the home screen and navigate to the article details, and back again.
+
+## Opening the Full Article from the Detail Page
+Now that we can navigate to the `DetailView` from the home screen, let's wrap up by adding functionality to our "View Full Article" button in the `DetailView`.
+
+<img src="./StepByStepResources/web_view.gif" width="300"/>
+
+1. Open up `DetailView.swift` and add a new `var` under `article` called `showWebView` with the `@State` property wrapper and assign it to `false`.
+```swift
+struct DetailView: View {
+    var article: NewsArticle
+    @State var showWebView = false
+```
+
+* `@State` is a property wrapper that signifies the source of truth for the `showWebView` value in our `DetailView`.
+
+2. Inside the closure representing the `Button` action, update `showWebView` to true. This allows the web view to be presented only after the `Button` is pressed.
+```swift
+Button("View Full Article") {
+    showWebView = true
+}.buttonStyle(FilledButtonStyle())
+```
+
+3. Add the following code directly after the `buttonStyle` line in the previous block to present a web view linking to our article.
+```swift
+.sheet(isPresented: $showWebView, content: {
+    // modally present web view
+    WebView(url:URL(string: article.url)!)
+})
+```
+
+* `sheet(isPresented:onDismiss:content:)` modally presents the given `content` view when `isPresented` is true. 
+* We pass in `$showWebView` for the `isPresented` parameter. `showWebView` is a binding, or a shared property to our `showWebView` state variable which is set to `true` by the `DetailView` when the button is pressed, and set to `false` again by the `sheet` on dismissal. The binding and state allows us to modify the property by different views while keeping one source or truth for the value.
+* The `content` is our pre-defined `WebView` which is just a SwiftUI wrapper around a Safari view controller. This takes the `url` of the current article and opens the web page.
+
+That's it! Run your app again and test out the presentation of your `WebView` by clicking on the "View Full Article" button. If you haven't already, feel free to create your own API key and add it to the `Constants.swift` file to test your app against live data and get up-to-date news. If you're feeling up to it, check out the Bonus Functionality section in the `README.md`.
