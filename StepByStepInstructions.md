@@ -6,16 +6,17 @@ In this workshop we'll be building a basic news app that will display different 
 
 ## Initial Project Setup
 
-1. Open your Terminal, and navigate to the directory in which you want to download the repository.
+1. Open your Terminal, and navigate to the directory in which you want to download the repository
 2. Run the following command in Terminal to clone the repo: `git clone https://github.com/C1-SoftwareEngineeringSummit/NewsfeedUI.git`
-3. Navigate into the starter project within the newly cloned repo: `cd NewsfeedUI/NewsfeedUI-Starter`
+3. Navigate to the starter project within the newly cloned repo: `cd NewsfeedUI/NewsfeedUI-Starter`
    * **NOTE:** You can also use the Finder app to navigate to `NewsfeedUI-Starter`
 4. Open the starter project in Xcode by running the following command: `xed .`
-   * **NOTE:** You can also double-click the `NewsfeedUI-Starter.xcodeproj` file in your Finder app
-5. Once the project is open in Xcode, click on the top level folder (NewsfeedUI-Starter) in the project navigator, then click on "General" settings, and then find the "Identity" settings section.
+   * **NOTE:** You can also double-click the `NewsfeedUI-Starter.xcodeproj` file in using the Finder app
+5. Once the project is open in Xcode, click on the top level folder (NewsfeedUI-Starter) in the project navigator, then click on "General" settings, and then look for the "Identity" settings section
 6. Inside Identity settings, modify the "Bundle Identifier" by adding your name to the end of it. For example, change it from `com.ses.NewsfeedUI-Starter.MyName` to `com.ses.NotesUI-Starter-SteveJobs`
+   * **NOTE:** The goal is to have a unique bundle identifier. Your app won't compile if the bundle identifier is not unique.
 
-<img src="./StepByStepResources/bundle_identifier.png" width="300" />
+<img src="./StepByStepResources/bundle_identifier.png" width="600" />
 
 ### Getting Set Up for API Calls
 
