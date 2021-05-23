@@ -43,7 +43,10 @@ class NewsArticle: Codable, Identifiable {
 }
 
 class NewsApiResponse: Codable {
+    /// If the request was successful or not. Options: `ok`, `error`. In the case of `error` a `code` and `message` property will be populated.
     var status: String
+    /// The total number of results available for your request.
     var totalResults: Int
+    /// The results of the request.
     var articles: [NewsArticle]?
 }

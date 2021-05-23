@@ -17,7 +17,7 @@ struct RemoteImage: View {
         var data = Data()
         var state = LoadState.loading
 
-        init(url: String, mockRequest: Bool = Constants.mockResponses) {
+        init(url: String, mockRequest: Bool = Constants.useMockResponses) {
             guard !mockRequest else { return }
             guard let parsedURL = URL(string: url) else {
                 fatalError("Invalid URL: \(url)")
@@ -53,7 +53,9 @@ struct RemoteImage: View {
         }
     }
 
-    init(url: String?, loading: Image = Image(systemName: "photo"), failure: Image = Image(systemName: "multiply.circle"), mockRequest: Bool = Constants.mockResponses) {
+    init(url: String?, loading: Image = Image(systemName: "photo"),
+         failure: Image = Image(systemName: "multiply.circle"),
+         mockRequest: Bool = Constants.useMockResponses) {
         if let unwrappedUrl = url {
             self.mockRequest = mockRequest
             _loader = StateObject(wrappedValue: Loader(url: unwrappedUrl, mockRequest: mockRequest))
