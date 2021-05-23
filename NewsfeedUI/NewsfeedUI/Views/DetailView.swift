@@ -51,17 +51,14 @@ struct DetailView: View {
 }
 
 struct FilledButtonStyle: ButtonStyle {
-    var backgroundColor: Color = .blue
-    var foregroundColor: Color = .white
-
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .padding(.vertical, 10)
             .padding(.horizontal, 50)
-            .background(backgroundColor)
-            .cornerRadius(10)
             .font(.title3)
-            .foregroundColor(configuration.isPressed ? foregroundColor.opacity(0.5) : foregroundColor)
+            .foregroundColor(.white)
+            .background(configuration.isPressed ? Color(red: 0.0, green: 0.3, blue: 0.8) : .blue)
+            .cornerRadius(10)
     }
 }
 
