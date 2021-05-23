@@ -23,7 +23,7 @@ In this workshop we'll be building a basic news app that will display different 
 
 If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
 
-If you do get a key, feel free to open up the `Constants.swift` file under the `Resources` group, and replace the `static let APIKey` empty string with your personal key. This will set the `useMockResponses` variable to `true`, triggering networking code to hit live data. However, it might be best to do this after going through the workshop because some of the Xcode previews will either be missing or show placeholder values when using live data.
+If you do get a key, feel free to open up the `Constants.swift` file under the `Resources` group, and replace the `static let APIKey` empty string with your personal key. This will set the `useMockResponses` variable to `false`, triggering networking code to hit live data. However, it might be best to do this after going through the workshop because some of the Xcode previews will either be missing or show placeholder values when using live data.
 
 <img src="./StepByStepResources/api_key_location.png" width="600"/>
 
@@ -332,7 +332,7 @@ var body: some View {
 
 * We use `.font(.title)` to style this `Text` as a `.title`.
 
-5. Add a `HStack` (horizontal stack) View below the `Text` View that will contain all of the articles in the given category:
+5. Add an `HStack` (horizontal stack) View below the `Text` View that will contain all of the articles in the given category:
 
 ```swift
 var body: some View {
