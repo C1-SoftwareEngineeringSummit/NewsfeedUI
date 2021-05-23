@@ -8,7 +8,7 @@
 import SafariServices
 import SwiftUI
 
-/// SwiftUI wrapper for SFSafariViewController
+/// SwiftUI wrapper for `SFSafariViewController`
 struct WebView: UIViewControllerRepresentable {
     let url: URL
 

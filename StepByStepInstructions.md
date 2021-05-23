@@ -15,6 +15,7 @@ In this workshop we'll be building a basic news app that will display different 
 5. Once the project is open in Xcode, click on the top level folder (NewsfeedUI-Starter) in the project navigator, then click on "General" settings, and then look for the "Identity" settings section
 6. Inside Identity settings, modify the "Bundle Identifier" by adding your name to the end of it. For example, change it from `com.ses.NewsfeedUI-Starter.MyName` to `com.ses.NotesUI-Starter-SteveJobs`
    * **NOTE:** The goal is to have a unique bundle identifier. Your app won't compile if the bundle identifier is not unique.
+7. Build and run the project to make sure everything is working fine. Press the symbol near the top left corner of Xcode that looks like a Play ▶️ button or use the shortcut: `⌘ + R`
 
 <img src="./StepByStepResources/bundle_identifier.png" width="900" />
 
@@ -22,7 +23,7 @@ In this workshop we'll be building a basic news app that will display different 
 
 If you want this app to work with real API calls, make sure to get a [News API development key](https://newsapi.org/docs/get-started). This will allow the app to fetch real data. But if you don't have a key, don't worry - this workshop is also set up so that you can use mock data without an API key.
 
-If you do get a key, feel free to open up the `Constants.swift` file under the `Resources` group, and replace the `static let APIKey` empty string with your personal key. This will set the `mockResponses` variable to `true`, triggering networking code to hit live data. However, it might be best to do this after going through the workshop because some of the Xcode previews will either be missing or show placeholder values when using live data.
+If you do get a key, feel free to open up the `Constants.swift` file under the `Resources` group, and replace the `static let APIKey` empty string with your personal key. This will set the `useMockResponses` variable to `true`, triggering networking code to hit live data. However, it might be best to do this after going through the workshop because some of the Xcode previews will either be missing or show placeholder values when using live data.
 
 <img src="./StepByStepResources/api_key_location.png" width="600"/>
 
@@ -32,9 +33,9 @@ In this workshop, there are a few pre-made files that we'll be using to make thi
 
 The first file is `Constants.swift`. If you have a personal API key to use, you've probably already looked at this file. It's not very complicated, just a place to keep a few constants that are used throughout the rest of the workshop.
 
-Next is `APIResponse.swift`. In this file, you'll find the classes `NewsArticle` and `NewsApiResponse`. These are the data models for our app. `NewsArticle` represents a single article, and `NewsApiResponse` represents a response from the News API, which contains many different `NewsArticle`'s.
+Next is `APIResponse.swift`. In this file, you'll find the classes `NewsArticle` and `NewsApiResponse`. These are the data models for our app. `NewsArticle` represents a single article, and `NewsApiResponse` represents a response from the News API, which contains an array of `[NewsArticle]`'s.
 
-`Models.swift` contains a class called `NewsFeed`. This class will fetch and store all of the different news articles from the API. It has a property for each different category of news (`general`, `sports`, `health`, `entertainment`). These properties are arrays of `NewsArticle`'s corresponding to the different categories. As you can see, `NewsFeed` implements the `ObservableObject` protocol. An `ObservableObject` will publish announcements when it's values have changed so that SwiftUI can react to those changes and update the user interface. The properties in this class (`general`, `sports`, `health`, `entertainment`) are all marked as `@Published`, which tells SwiftUI that these properties should trigger change notifications. Later on in the workshop, you'll see how these properties are used to reactively display news articles. If you want to read more about this topic, [this is a good place to start](https://www.hackingwithswift.com/quick-start/swiftui/observable-objects-environment-objects-and-published). `NewsFeed` also contains a `static var sampleData`, which is just an array of sample news articles that we will use to test our app throughout the workshop.
+`Models.swift` contains a class called `NewsFeed`. This class will fetch and store all of the different news articles from the API. It has a property for each category of news (`general`, `sports`, `health`, `entertainment`). These properties are arrays of `NewsArticle`'s corresponding to the different categories. As you can see, `NewsFeed` implements the `ObservableObject` protocol. An `ObservableObject` will publish announcements when it's values have changed so that SwiftUI can react to those changes and update the user interface. The properties in this class (`general`, `sports`, `health`, `entertainment`) are all marked as `@Published`, which tells SwiftUI that these properties should trigger change notifications. Later on in the workshop, you'll see how these properties are used to reactively display news articles. If you want to read more about this topic, [this is a good place to start](https://www.hackingwithswift.com/quick-start/swiftui/observable-objects-environment-objects-and-published). `NewsFeed` also contains a `static var sampleData`, which is just an array of sample news articles that we will use to test our app throughout the workshop.
 
 Under the "Views" group, we have also have `RemoteImage.swift`. This class defines a `View` called `RemoteImage` that will download and display an image from any URL that you provide to it. The implementation details are a bit out of the scope of this tutorial, but we will at least see how to use this `View` later on in the workshop.
 
@@ -59,7 +60,7 @@ First, we'll build a `CarouselView`, which will display multiple pages of conten
 <img src="./StepByStepResources/file_type_screen.png" width="600"/>
 <img src="./StepByStepResources/name_file_screen.png" width="600"/>
 
-2. Insert a `var` at the top of the `CarouselView` `struct` called `articles` that is of type `[NewsArticle]`
+2. Insert a `var` at the top of the `CarouselView` struct called `articles` that is of type `[NewsArticle]`
 
 ```swift
 struct CarouselView: View {
@@ -142,7 +143,7 @@ struct FeatureView_Previews: PreviewProvider {
 }
 ```
 
-4. Replace the `Text` in the `body` with an image for the current `article`:
+4. Replace the `Text` View in the `body` with a `RemoteImage` View for the current `article`:
 
 ```swift
 var body: some View {
@@ -287,7 +288,7 @@ struct CarouselView_Previews: PreviewProvider {
 
 ## 3. Displaying Categories of Articles
 
-In this section we'll create the view that display categories of articles. This new view will display multiple article "cards" in a horizontal scroll view. One of these horizontal scroll views will contain all articles from a given category (technology, business, sports, music, etc.).
+In this section we'll create the view that displays categories of articles. This new view will display multiple article "cards" in a horizontal scroll view. Each of these horizontal scroll views will contain all articles from a given category (e.g. technology, business, sports, music, etc).
 
 <img src="./StepByStepResources/category_row.png" width="300"/>
 
@@ -297,7 +298,7 @@ First, we will build a horizontal scroll view to contain all of the articles in 
 
 1. Create a new SwiftUI file in the `Views` folder called `CategoryRow.swift`
 
-2. Insert two `var`s at the top of the `CategoryRow` `struct` called `categoryName` and `articles`:
+2. Insert two `var`s at the top of the `CategoryRow` struct called `categoryName` and `articles`:
 
 ```swift
 struct CategoryRow: View {
@@ -305,8 +306,8 @@ struct CategoryRow: View {
     var articles: [NewsArticle]
 ```
 
-* `categoryName` is the name of this category ("Technology", "Business", "Sports", "Music", etc.).
-* `articles` is an `Array` of `NewsArticle`s that belong to this category.
+* `categoryName` is the name of this category ("Technology", "Business", "Sports", "Music", etc.)
+* `articles` is an `Array` of `NewsArticle`s that belong to this category
 
 3. Update the `PreviewProvider` to initialize these two `var`s in the preview:
 
@@ -331,7 +332,7 @@ var body: some View {
 
 * We use `.font(.title)` to style this `Text` as a `.title`.
 
-5. Add an `HStack` (horizontal stack) that will contain all of the articles in the given category:
+5. Add a `HStack` (horizontal stack) View below the `Text` View that will contain all of the articles in the given category:
 
 ```swift
 var body: some View {
@@ -349,7 +350,7 @@ var body: some View {
 * When we create the `HStack`, we define the `alignment` to be `.top`, meaning that all of the items in the `HStack` will have their top edges aligned.
 * The `ForEach` loop goes through the `articles` array and creates a `Text` for each `article` in the array. For now, the `Text` only displays the first 10 characters in the `article`'s `title`.
 
-6. Group the category name and the horizontal stack together in a `VStack` (vertical stack):
+6. Group the category name Text View and the horizontal stack View together inside a `VStack` (vertical stack View):
 
 ```swift
 var body: some View {
@@ -368,7 +369,7 @@ var body: some View {
 
 * We use `.leading` alignment to align all of the vertically stacked content to the leading (left) edge.
 * This `VStack` will place the category name directly above the horizontal stack of articles.
-* If you try to resume the Canvas preview at this point, it will look pretty terrible! This is because our `HStack` doesn't scroll, and it tries to squish all of its content onto the screen at once.
+* If you try to resume the Canvas preview at this point, it will look pretty terrible! This is because our `HStack` doesn't scroll yet and therefore squishes all of its content onto the screen at once.
 
 7. Add some padding to the category name, and wrap the `HStack` in a `ScrollView`:
 
@@ -401,7 +402,7 @@ var body: some View {
 <img src="./StepByStepResources/category_row_title_only.png" width="300"/>
 
 ### CategoryItem
-Next, we'll build a `CategoryItem` view that will display a single news article as a thumbnail and a title. Multiple `CategoryItem`s will go inside our `CategoryRow`'s horizontal `ScrollView` to display an entire category of news articles.
+Next, we'll build a `CategoryItem` View that will display a single news article as a thumbnail and a title. Multiple `CategoryItem`s will go inside our `CategoryRow`'s horizontal `ScrollView` to display an entire category of news articles. The image below shows how our `CategoryItem` will look.
 
 <img src="./StepByStepResources/category_item.png" width="300"/>
 
@@ -446,7 +447,7 @@ var body: some View {
 }
 ```
 
-* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` and some `Text`. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`.
+* This `VStack` is just like the one we used in `CategoryRow`. It contains a `RemoteImage` View and a `Text` View below it. The `RemoteImage` displays the thumbnail for the `article`, and the `Text` displays the `article`'s `title`.
 
 > **NOTE:** If you never added your API key to `Constants.swift`, `RemoteImage` will pull from our locally saved images. Otherwise, `RemoteImage` will try to pull the live image. But again, be aware that doing so will cause a default placeholder image to show up in the Canvas preview!
 
@@ -533,7 +534,7 @@ struct CategoryRow_Previews: PreviewProvider {
 }
 ```
 
-> If you start another live preview in the Canvas, you should be able to see your completed `CategoryRow`! Each article should have a "card" displaying a thumbnail and a title, and the whole category of articles should scroll horizontally.
+> If you restart live preview in the Canvas, you should be able to see your completed `CategoryRow`! Each article should have a "card" displaying a thumbnail and a title, and the whole category of articles should scroll horizontally.
 
 <img src="./StepByStepResources/category_row.png" width="300"/>
 
@@ -545,7 +546,7 @@ Now that we've created a `CarouselView` and `CategoryRow`, we can use those two 
 
 1. Open `ContentView.swift`. This `View` is the first screen that a user sees when they open the app for the first time.
 
-2. Add the following property to the `ContentView` `struct`:
+2. Add the following property to the `ContentView` struct:
 
 ```swift
 struct ContentView: View {

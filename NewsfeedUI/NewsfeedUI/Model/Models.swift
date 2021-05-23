@@ -7,13 +7,16 @@
 
 import Foundation
 
+/// This class will fetch and store all of the different news articles from the News API.
+/// NewsFeed conforms to `ObservableObject` so that it can publish announcements when its values have changed so the user interface can be updated.
+/// `@Published` is a propery wrapper that tells SwiftUI that these properties should trigger change notifications.
 class NewsFeed: ObservableObject {
     @Published var general = [NewsArticle]()
     @Published var sports = [NewsArticle]()
     @Published var health = [NewsArticle]()
     @Published var entertainment = [NewsArticle]()
 
-    /// For previews
+    /// Mocked data from a JSON file used for previews
     static var sampleData: [NewsArticle] {
         guard let pathString = Bundle(for: NewsFeed.self).path(forResource: Constants.ResponsePayload.everything, ofType: "json"),
               let jsonString = try? NSString(contentsOfFile: pathString, encoding: String.Encoding.utf8.rawValue),
@@ -26,7 +29,7 @@ class NewsFeed: ObservableObject {
     }
 
     init() {
-        if Constants.mockResponses {
+        if Constants.useMockResponses {
             startLoadingFromJSON()
         } else {
             startLoadingNewsFeeds()
