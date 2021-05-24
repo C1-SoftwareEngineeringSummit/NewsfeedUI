@@ -686,7 +686,7 @@ var body: some View {
             .padding(.vertical, 10)
             .padding(.horizontal, 50)
             .foregroundColor(.white)
-            .background(.blue)
+            .background(Color.blue)
             .cornerRadius(10)
     }.padding()
 }
