@@ -136,7 +136,13 @@ extension NewsFeed {
             return []
         }
 
-        return response.articles ?? []
+        guard let articles = response.articles else {
+            return []
+        }
+
+        return articles.filter { (article) -> Bool in
+            !article.url.isEmpty && !(article.urlToImage ?? "").isEmpty
+        }
     }
 }
 
