@@ -32,6 +32,21 @@ struct ContentView: View {
                     CategoryRow(categoryName: "Entertainment", articles: newsFeed.entertainment)
                         .listRowInsets(EdgeInsets())
                 }
+
+                if !newsFeed.business.isEmpty {
+                    CategoryRow(categoryName: "Business", articles: newsFeed.business)
+                        .listRowInsets(EdgeInsets())
+                }
+
+                if !newsFeed.science.isEmpty {
+                    CategoryRow(categoryName: "Science", articles: newsFeed.science)
+                        .listRowInsets(EdgeInsets())
+                }
+
+                if !newsFeed.technology.isEmpty {
+                    CategoryRow(categoryName: "Technology", articles: newsFeed.technology)
+                        .listRowInsets(EdgeInsets())
+                }
             }
             .navigationTitle("Newsfeed")
         }
