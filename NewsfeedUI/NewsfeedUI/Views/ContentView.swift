@@ -48,6 +48,7 @@ struct ContentView: View {
                         .listRowInsets(EdgeInsets())
                 }
             }
+            .listStyle(PlainListStyle())
             .navigationTitle("Newsfeed")
         }
     }
