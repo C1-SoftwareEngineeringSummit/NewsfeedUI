@@ -832,11 +832,11 @@ ForEach(articles) { article in
 
 Now that the main UI is complete, there are a few things you can to do customize the app to make it your own. 
 
-1. For starters, you may want to change the default news categories that are displayed in the main view. We included support for all of the categories in [News API's top-headlines endpoint](https://newsapi.org/docs/endpoints/top-headlines): `general`, `business`, `entertainment`, `health`, `science`, `sports`, and `technology`. Feel free to display whichever categories you're interested in (or all of them!) by following the process of adding the `CategoryRow`s to the `ContentView`'s list from [4. Building the Home Screen](#4.-Building-the-Home-Screen). You can also change the name of the navigation title from "Newsfeed" to whatever you want!
+1. For starters, you may want to change the default news categories that are displayed in the main view. We included support for all of the categories in [News API's top-headlines endpoint](https://newsapi.org/docs/endpoints/top-headlines): `general`, `business`, `entertainment`, `health`, `science`, `sports`, and `technology`. Feel free to display whichever categories you're interested in (or all of them!) by following the process of adding the `CategoryRow`s to the `ContentView`'s list from [4. Building the Home Screen](#4-building-the-home-screen). You can also change the name of the navigation title from "Newsfeed" to whatever you want!
 
 2. Be creative. SwiftUI makes it very easy to modify style across your views. Check out the [SwiftUICheatSheet](SwiftUICheatSheet.md) we provided to customize the look and feel of your app. Some ideas are to change the text font, color scheme, corner radii, etc.
 
-3. If you haven't already, now is a good time to hit live data! Check out [Getting Set Up for API Calls](#Getting-Set-Up-for-API-Calls) from section 1 again for a refresher on setting up and adding your News API key. 
+3. If you haven't already, now is a good time to hit live data! Check out [Getting Set Up for API Calls](#getting-set-up-for-api-calls) from section 1 again for a refresher on setting up and adding your News API key. 
 
 
 ## On Your Own: Opening the Full Article from the Detail Page
