@@ -4,7 +4,7 @@ This workshop covers building a Newsfeed app using SwiftUI, and it's meant to be
 
 ## Requirements
 
-This project has been updated to work with Xcode 13.2, Swift 5.5, and iOS 15.2. Xcode 13.2 requires a Mac running macOS 11.3 Big Sur or later.
+This project has been updated to work with Xcode 13.2.1, Swift 5.5, and iOS 15.2. Xcode 13.2.1 requires a Mac running macOS 11.3 Big Sur or later.
 
 * Download Xcode [here](https://developer.apple.com/xcode/)
 

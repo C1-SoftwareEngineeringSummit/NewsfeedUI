@@ -20,7 +20,6 @@ enum Constants {
         static let sports = endpoint(for: "sports")
         static let health = endpoint(for: "health")
         static let entertainment = endpoint(for: "entertainment")
-        // TODO: Add more categories here
         static let business = endpoint(for: "business")
         static let science = endpoint(for: "science")
         static let technology = endpoint(for: "technology")
