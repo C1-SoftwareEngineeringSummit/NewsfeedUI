@@ -7,13 +7,19 @@
 
 import Foundation
 
+/// This class will fetch and store all of the different news articles from the News API.
+/// NewsFeed conforms to `ObservableObject` so that it can publish announcements when its values have changed so the user interface can be updated.
+/// `@Published` is a propery wrapper that tells SwiftUI that these properties should trigger change notifications.
 class NewsFeed: ObservableObject {
     @Published var general = [NewsArticle]()
     @Published var sports = [NewsArticle]()
     @Published var health = [NewsArticle]()
     @Published var entertainment = [NewsArticle]()
+    @Published var business = [NewsArticle]()
+    @Published var science = [NewsArticle]()
+    @Published var technology = [NewsArticle]()
 
-    /// For previews
+    /// Mocked data from a JSON file used for previews
     static var sampleData: [NewsArticle] {
         guard let pathString = Bundle(for: NewsFeed.self).path(forResource: Constants.ResponsePayload.everything, ofType: "json"),
               let jsonString = try? NSString(contentsOfFile: pathString, encoding: String.Encoding.utf8.rawValue),
@@ -26,7 +32,7 @@ class NewsFeed: ObservableObject {
     }
 
     init() {
-        if Constants.mockResponses {
+        if Constants.useMockResponses {
             startLoadingFromJSON()
         } else {
             startLoadingNewsFeeds()
@@ -73,6 +79,33 @@ extension NewsFeed {
                 }
             }.resume()
         }
+
+        if let businessURL = URL(string: Constants.Endpoint.business) {
+            URLSession.shared.dataTask(with: businessURL) { (data, response, error) in
+                let businessArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.business.append(contentsOf: businessArticles)
+                }
+            }.resume()
+        }
+
+        if let scienceUrl = URL(string: Constants.Endpoint.science) {
+            URLSession.shared.dataTask(with: scienceUrl) { (data, response, error) in
+                let scienceArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.science.append(contentsOf: scienceArticles)
+                }
+            }.resume()
+        }
+
+        if let technologyUrl = URL(string: Constants.Endpoint.technology) {
+            URLSession.shared.dataTask(with: technologyUrl) { (data, response, error) in
+                let technologyArticles = self.parseAPIResponse(data: data, response: response, error: error)
+                DispatchQueue.main.async {
+                    self.technology.append(contentsOf: technologyArticles)
+                }
+            }.resume()
+        }
     }
     
     // MARK :- Parse API Response
@@ -101,6 +134,9 @@ extension NewsFeed {
         self.sports.append(contentsOf: mockArticles)
         self.health.append(contentsOf: mockArticles)
         self.entertainment.append(contentsOf: mockArticles)
+        self.business.append(contentsOf: mockArticles)
+        self.science.append(contentsOf: mockArticles)
+        self.technology.append(contentsOf: mockArticles)
     }
     
     func readJsonFromFile(resourceName: String) -> Data? {
@@ -133,7 +169,13 @@ extension NewsFeed {
             return []
         }
 
-        return response.articles ?? []
+        guard let articles = response.articles else {
+            return []
+        }
+
+        return articles.filter { (article) -> Bool in
+            !article.url.isEmpty && !(article.urlToImage ?? "").isEmpty
+        }
     }
 }
 

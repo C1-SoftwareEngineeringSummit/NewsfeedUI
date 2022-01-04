@@ -35,7 +35,7 @@ The first file is `Constants.swift`. If you have a personal API key to use, you'
 
 Next is `APIResponse.swift`. In this file, you'll find the classes `NewsArticle` and `NewsApiResponse`. These are the data models for our app. `NewsArticle` represents a single article, and `NewsApiResponse` represents a response from the News API, which contains an array of `[NewsArticle]`'s.
 
-`Models.swift` contains a class called `NewsFeed`. This class will fetch and store all of the different news articles from the API. It has a property for each category of news (`general`, `sports`, `health`, `entertainment`). These properties are arrays of `NewsArticle`'s corresponding to the different categories. As you can see, `NewsFeed` implements the `ObservableObject` protocol. An `ObservableObject` will publish announcements when it's values have changed so that SwiftUI can react to those changes and update the user interface. The properties in this class (`general`, `sports`, `health`, `entertainment`) are all marked as `@Published`, which tells SwiftUI that these properties should trigger change notifications. Later on in the workshop, you'll see how these properties are used to reactively display news articles. If you want to read more about this topic, [this is a good place to start](https://www.hackingwithswift.com/quick-start/swiftui/observable-objects-environment-objects-and-published). `NewsFeed` also contains a `static var sampleData`, which is just an array of sample news articles that we will use to test our app throughout the workshop.
+`Models.swift` contains a class called `NewsFeed`. This class will fetch and store all of the different news articles from the API. It has a property for each category of news (`general`, `sports`, `health`, `entertainment`, `business`, `science`, & `technology`). These properties are arrays of `NewsArticle`'s corresponding to the different categories. As you can see, `NewsFeed` implements the `ObservableObject` protocol. An `ObservableObject` will publish announcements when it's values have changed so that SwiftUI can react to those changes and update the user interface. The properties in this class (`general`, `sports`, `health`, `entertainment`, `business`, `science`, & `technology`) are all marked as `@Published`, which tells SwiftUI that these properties should trigger change notifications. Later on in the workshop, you'll see how these properties are used to reactively display news articles. If you want to read more about this topic, [this is a good place to start](https://www.hackingwithswift.com/quick-start/swiftui/observable-objects-environment-objects-and-published). `NewsFeed` also contains a `static var sampleData`, which is just an array of sample news articles that we will use to test our app throughout the workshop.
 
 Under the "Views" group, we have also have `RemoteImage.swift`. This class defines a `View` called `RemoteImage` that will download and display an image from any URL that you provide to it. The implementation details are a bit out of the scope of this tutorial, but we will at least see how to use this `View` later on in the workshop.
 
@@ -554,7 +554,7 @@ struct ContentView: View {
 ```
 
 * `@ObservedObject` is a property wrapper. It tells our `ContentView` to observe the state of the `newsFeed` and react to any changes. This means that when the `newsFeed` changes, any views that depend on it will be reloaded. This happens when our app finishes fetching news articles and loads them into the `newsFeed`.
-* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles (General, Sports, Health, Entertainment). After these API calls complete, we can access the General category of articles by using `newsFeed.general`, for example. Again, if you set up your API key at the beginning of this tutorial, you will be fetching live data, but be aware that this will cause the Canvas preview to show up blank.
+* `NewsFeed` is our API request engine. When we create this object, it makes a few different API requests to retrieve different categories of news articles. After these API calls complete, we can access the General category of articles by using `newsFeed.general`, for example. Again, if you set up your API key at the beginning of this tutorial, you will be fetching live data, but be aware that this will cause the Canvas preview to show up blank.
 
 3. In the `body`, wrap the existing `Text` inside of a `NavigationView` and give it a `.navigationTitle`:
 
@@ -580,6 +580,7 @@ var body: some View {
                     .listRowInsets(EdgeInsets())
             }
         }
+        .listStyle(PlainListStyle())
         .navigationTitle("Newsfeed")
     }
 }
@@ -588,9 +589,9 @@ var body: some View {
 * A `List` is just a container that will present rows of data arranged in a single column. Right now, we are only providing one row of data, which is our `CarouselView`.
 * Before we add the `CarouselView` to the `List`, we check to see if `!newsFeed.general.isEmpty`. We do this because we need at least 1 article in `newsFeed.general` in order to create a `CarouselView`. Otherwise, we would have nothing to display. If there's at least 1 article in `newsFeed.general`, we display the `CarouselView`. Otherwise, we don't add it to the `List`.
 * When we create the `CarouselView`, we provide it with `Array(newsFeed.general.prefix(5))`. This is will take up to 5 articles from the General category, and display them in the `CarouselView`.
-* We use `.listRowInsets(EdgeInsets())` to set the edge insets to zero for the `CarouselView`. This allows the content to extend to the edges of the screen.
+* We use `.listRowInsets(EdgeInsets())` to set the edge insets to zero for the `CarouselView`. Adding the `PlainListStyle()` style modifier removes the insets from the entire list. This combined with the row insets allows the content to extend to the edges of the screen.
 
-5. Add 3 `CategoryRow`'s to the `List`, one for each of the categories Sports, Health, and Entertainment:
+5. Add 3 `CategoryRow`'s to the `List`, one for each of the categories Sports, Health, and Entertainment (you can choose different categories later if you wish):
 
 ```swift
 var body: some View {
@@ -825,9 +826,20 @@ ForEach(articles) { article in
 }
 ```
 
-> Switch to `ContentView.swift` and refresh the Canvas to start a live preview. You should now be able to click on elements in the home screen and navigate to the article details, and back again.
+> Switch to `ContentView.swift` and refresh the Canvas to start a live preview. You should now be able to click on elements in the home screen and navigate to the article details, and back again. That's it for the main navigation of the app!
 
-## 7. Opening the Full Article from the Detail Page
+## 7. Customization
+
+Now that the main UI is complete, there are a few things you can to do customize the app to make it your own. 
+
+1. For starters, you may want to change the default news categories that are displayed in the main view. We included support for all of the categories in [News API's top-headlines endpoint](https://newsapi.org/docs/endpoints/top-headlines): `general`, `business`, `entertainment`, `health`, `science`, `sports`, and `technology`. Feel free to display whichever categories you're interested in (or all of them!) by following the process of adding the `CategoryRow`s to the `ContentView`'s list from [4. Building the Home Screen](#4-building-the-home-screen). You can also change the name of the navigation title from "Newsfeed" to whatever you want!
+
+2. Be creative. SwiftUI makes it very easy to modify style across your views. Check out the [SwiftUICheatSheet](SwiftUICheatSheet.md) we provided to customize the look and feel of your app. Some ideas are to change the text font, color scheme, corner radii, etc.
+
+3. If you haven't already, now is a good time to hit live data! Check out [Getting Set Up for API Calls](#getting-set-up-for-api-calls) from section 1 again for a refresher on setting up and adding your News API key. 
+
+
+## On Your Own: Opening the Full Article from the Detail Page
 
 Now that we can navigate to the `DetailView` from the home screen, let's wrap up by adding functionality to our "View Full Article" button in the `DetailView`.
 
